@@ -1,339 +1,1125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-<title>TopNotchFreaks — Kernel Wiki</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Barlow:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg0: #08090c;
-  --bg1: #0e1017;
-  --bg2: #141720;
-  --bg3: #1a1e2a;
-  --ln:  #232838;
-  --ln2: #2e3448;
-  --fg0: #e8ecf5;
-  --fg1: #9aa3bc;
-  --fg2: #5a6380;
-  --fg3: #363d56;
-  --fire:   #ff6b35;
-  --fire2:  #ff9a5c;
-  --ice:    #38bdf8;
-  --ice2:   #7dd3fc;
-  --lime:   #a3e635;
-  --lime2:  #d9f99d;
-  --violet: #818cf8;
-  --violet2:#c7d2fe;
-  --rose:   #fb7185;
-  --fire-bg:   rgba(255,107,53,.08);
-  --ice-bg:    rgba(56,189,248,.07);
-  --lime-bg:   rgba(163,230,53,.07);
-  --violet-bg: rgba(129,140,248,.07);
-  --rose-bg:   rgba(251,113,133,.07);
-  --mono: 'IBM Plex Mono', monospace;
-  --sans: 'Barlow', sans-serif;
-  --r: 10px;
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { 
-  background: var(--bg0); 
-  color: var(--fg0); 
-  font-family: var(--sans); 
-  font-size: 15px; 
-  line-height: 1.6; 
-  min-height: 100vh;
-}
-body::after { content:''; position:fixed; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.05) 2px,rgba(0,0,0,.05) 4px); pointer-events:none; z-index:9999; }
-
-/* mobile-first layout: no fixed sidebar, offcanvas menu */
-.shell { display: flex; flex-direction: column; min-height: 100vh; }
-
-/* TOP BAR (mobile friendly) */
-.topbar { 
-  background: var(--bg1); 
-  border-bottom: 1px solid var(--ln); 
-  padding: 12px 16px; 
-  display: flex; 
-  align-items: center; 
-  justify-content: space-between; 
-  position: sticky; 
-  top: 0; 
-  z-index: 200; 
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.bc { 
-  font-family: var(--mono); 
-  font-size: 12px; 
-  color: var(--fg2); 
-  display: flex; 
-  align-items: center; 
-  gap: 4px; 
-  flex-wrap: wrap;
-}
-.bc .sep { color: var(--ln2); }
-.bc .cur { color: var(--fire); font-weight: 500; }
-.menu-toggle {
-  background: var(--bg2);
-  border: 1px solid var(--ln);
-  border-radius: 30px;
-  padding: 6px 14px;
-  font-size: 13px;
-  font-weight: 600;
-  font-family: var(--sans);
-  color: var(--fg1);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: 0.1s;
-}
-.menu-toggle:hover { background: var(--bg3); color: var(--fg0); }
-.tb-chips { display: flex; gap: 6px; flex-wrap: wrap; }
-.chip { font-family: var(--mono); font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 30px; white-space: nowrap; background: var(--bg2); border: 1px solid var(--ln); }
-.ch-fire   { background: var(--fire-bg);   color: var(--fire);   border-color: rgba(255,107,53,.3); }
-.ch-ice    { background: var(--ice-bg);    color: var(--ice);    border-color: rgba(56,189,248,.3); }
-.ch-lime   { background: var(--lime-bg);   color: var(--lime);   border-color: rgba(163,230,53,.3); }
-.ch-violet { background: var(--violet-bg); color: var(--violet); border-color: rgba(129,140,248,.3); }
-.ch-rose   { background: var(--rose-bg);   color: var(--rose);   border-color: rgba(251,113,133,.3); }
-
-/* MOBILE SIDEBAR (offcanvas) */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: -280px;
-  width: 280px;
-  height: 100vh;
-  background: var(--bg1);
-  border-right: 1px solid var(--ln);
-  z-index: 1000;
-  transition: left 0.25s ease-out;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 2px 0 20px rgba(0,0,0,0.5);
-}
-.sidebar.open { left: 0; }
-.sb-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(4px);
-  z-index: 999;
-  opacity: 0;
-  visibility: hidden;
-  transition: 0.2s;
-}
-.sb-overlay.open { opacity: 1; visibility: visible; }
-.sb-top { padding: 20px 18px; border-bottom: 1px solid var(--ln); }
-.sb-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-.sb-flame { font-size: 26px; filter: drop-shadow(0 0 8px var(--fire)); }
-.sb-title { font-family: var(--sans); font-weight: 900; font-size: 18px; color: var(--fg0); }
-.sb-sub { font-family: var(--mono); font-size: 10px; color: var(--fg3); }
-.sb-status { display: flex; align-items: center; gap: 6px; margin-top: 12px; font-family: var(--mono); font-size: 10px; color: var(--fg2); }
-.pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 6px var(--lime); animation: blink 2s ease-in-out infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
-.sb-nav { padding: 12px 12px; flex:1; }
-.sb-section { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg3); padding: 0 10px; margin: 18px 0 6px; }
-.nav-btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 14px; border-radius: var(--r); border: 1px solid transparent; background: none; color: var(--fg1); font-family: var(--sans); font-size: 14px; font-weight: 500; cursor: pointer; text-align: left; transition: all 0.12s; margin-bottom: 2px; }
-.nav-btn:hover { background: var(--bg2); color: var(--fg0); }
-.nav-btn.on { background: var(--fire-bg); color: var(--fire2); border-color: rgba(255,107,53,.3); }
-.nav-btn.p-yask.on { background: var(--lime-bg); color: var(--lime2); }
-.nav-btn.p-main.on { background: var(--ice-bg); color: var(--ice2); }
-.nav-btn.p-adv.on  { background: var(--fire-bg); color: var(--fire2); }
-.nav-ic { font-size: 18px; width: 24px; text-align: center; }
-
-/* CONTENT */
-.page { flex:1; min-width: 0; display: flex; flex-direction: column; }
-.content { padding: 20px 18px 48px; max-width: 100%; }
-.section { display: none; animation: fadein 0.2s ease; }
-.section.on { display: block; }
-@keyframes fadein { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
-
-/* TYPOGRAPHY */
-h2 { font-family: var(--sans); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--fg2); margin: 24px 0 12px 0; display: flex; align-items: center; gap: 10px; }
-h2::after { content: ''; flex:1; height: 1px; background: var(--ln); }
-h3 { font-size: 18px; font-weight: 700; color: var(--fg0); margin-bottom: 8px; letter-spacing: -0.01em; }
-p { color: var(--fg1); margin-bottom: 14px; font-size: 15px; }
-
-/* HERO */
-.hero { border: 1px solid var(--ln2); border-radius: var(--r); padding: 28px 20px; margin-bottom: 28px; background: linear-gradient(135deg,rgba(255,107,53,.07) 0%,transparent 70%); position: relative; overflow: hidden; }
-.hero-bg { position: absolute; right:-10px; top:-10px; font-size: 80px; font-weight: 900; color: rgba(255,107,53,.04); pointer-events: none; user-select: none; }
-.hero-ey { font-family: var(--mono); font-size: 10px; color: var(--fire); letter-spacing: 0.12em; margin-bottom: 12px; }
-.hero h1 { font-size: 34px; font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 12px; }
-.hero h1 span { color: var(--fire); }
-.hero-body { font-size: 15px; margin-bottom: 22px; }
-.hero-stats { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
-.hs { display: flex; flex-direction: column; gap: 2px; }
-.hs-v { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--fire); }
-.hs-k { font-size: 10px; color: var(--fg2); text-transform: uppercase; letter-spacing: 0.1em; }
-
-/* CARDS & GRIDS (mobile columns) */
-.proj-row, .cards, .compare, .mx-grid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
-.proj, .card, .cmp-col, .mx-card { background: var(--bg1); border: 1px solid var(--ln); border-radius: var(--r); padding: 18px; transition: all 0.12s; }
-.proj { cursor: pointer; position: relative; overflow: hidden; }
-.proj::before { content: ''; position: absolute; top:0; left:0; right:0; height: 3px; }
-.proj.yask::before { background: linear-gradient(90deg,var(--lime),var(--ice)); }
-.proj.main::before { background: linear-gradient(90deg,var(--ice),var(--violet)); }
-.proj.adv::before  { background: linear-gradient(90deg,var(--fire),var(--rose)); }
-.proj-tag { font-family: var(--mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; }
-.proj.yask .proj-tag { color: var(--lime); }
-.proj.main .proj-tag { color: var(--ice); }
-.proj.adv  .proj-tag { color: var(--fire); }
-.proj h3 { font-size: 18px; margin-bottom: 6px; }
-.proj p { font-size: 14px; margin-bottom: 12px; }
-.proj-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-.card h3 { font-size: 16px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; }
-.card-ic { font-size: 24px; margin-bottom: 8px; }
-
-/* COMPARE COLUMNS */
-.cmp-head { padding: 12px 14px; font-size: 16px; font-weight: 800; border-bottom: 1px solid var(--ln); background: var(--bg2); border-radius: var(--r) var(--r) 0 0; }
-.cmp-head.yask { color: var(--lime); background: var(--lime-bg); }
-.cmp-head.main { color: var(--ice);  background: var(--ice-bg); }
-.cmp-head.adv  { color: var(--fire); background: var(--fire-bg); }
-.cmp-body { padding: 12px 14px; }
-.cr { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--ln); font-size: 12px; font-family: var(--mono); }
-.cr:last-child { border: none; }
-.cr-k { color: var(--fg2); flex-shrink: 0; }
-.cr-v { color: var(--fg1); text-align: right; word-break: break-word; }
-
-/* TABLES (horizontal scroll on mobile) */
-.tw { overflow-x: auto; margin-bottom: 20px; border-radius: var(--r); border: 1px solid var(--ln); background: var(--bg1); }
-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 520px; }
-th { padding: 10px 12px; background: var(--bg2); color: var(--fg2); font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--ln); }
-td { padding: 10px 12px; border-bottom: 1px solid var(--ln); color: var(--fg1); font-family: var(--mono); font-size: 12px; vertical-align: top; }
-tr:last-child td { border-bottom: none; }
-td.em { color: var(--fg0); font-weight: 600; }
-td.fire, td.lime, td.ice, td.violet, td.rose { font-weight: 500; }
-
-/* CODE BLOCKS */
-.code { background: #06080e; border: 1px solid var(--ln); border-radius: var(--r); margin-bottom: 18px; overflow-x: auto; }
-.code-bar { display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: var(--bg2); border-bottom: 1px solid var(--ln); }
-.db { width: 10px; height: 10px; border-radius: 50%; }
-.db-r { background:#ff5f57; } .db-y { background:#febc2e; } .db-g { background:#28c840; }
-.code-fn { font-family: var(--mono); font-size: 10px; color: var(--fg2); margin-left: 6px; }
-.code pre { padding: 14px 14px; font-family: var(--mono); font-size: 12px; line-height: 1.7; color: #c9d1d9; white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
-.kw { color:#ff7b72; } .str { color:#a5d6ff; } .cm { color:#4e5a70; font-style:italic; } .vl { color:var(--lime); } .ky { color:#ffa657; }
-
-/* STEPS */
-.steps { padding-left: 16px; border-left: 2px solid var(--ln2); margin-bottom: 24px; }
-.step { padding: 0 0 16px 18px; position: relative; }
-.step:last-child { padding-bottom: 0; }
-.step::before { content: ''; position: absolute; left: -7px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--fire); box-shadow: 0 0 0 3px var(--bg0), 0 0 0 5px var(--fire); }
-.steps.lime .step::before { background: var(--lime); box-shadow: 0 0 0 3px var(--bg0),0 0 0 5px var(--lime); }
-.steps.ice .step::before { background: var(--ice); box-shadow: 0 0 0 3px var(--bg0),0 0 0 5px var(--ice); }
-.step-t { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--fg0); margin-bottom: 4px; }
-.step-d { font-size: 14px; color: var(--fg1); }
-
-/* CALLOUTS */
-.callout { display: flex; gap: 12px; padding: 14px 16px; border-radius: var(--r); margin-bottom: 18px; font-size: 14px; background: var(--bg1); border-left: 3px solid; }
-.c-info { border-left-color: var(--ice); background: var(--ice-bg); }
-.c-warn { border-left-color: #f59e0b; background: rgba(245,158,11,.07); }
-.c-ok   { border-left-color: var(--lime); background: var(--lime-bg); }
-.c-err  { border-left-color: var(--rose); background: var(--rose-bg); }
-.callout-ic { font-size: 20px; flex-shrink: 0; }
-
-/* SECRETS */
-.secret-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-.secret { background: var(--bg1); border: 1px solid var(--ln); border-radius: var(--r); padding: 14px 16px; }
-.secret-key { font-family: var(--mono); font-size: 14px; font-weight: 700; color: #fbbf24; margin-bottom: 6px; }
-.secret-desc { font-size: 14px; color: var(--fg1); }
-
-.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
-.close-sidebar-btn { background: var(--bg2); border: none; color: var(--fg2); font-size: 24px; position: absolute; top: 14px; right: 18px; cursor: pointer; width: 32px; height: 32px; border-radius: 40px; display: flex; align-items: center; justify-content: center; }
-.close-sidebar-btn:hover { background: var(--bg3); color: var(--fg0); }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>TopNotchFreaks — Kernel Wiki // Nothing OS Edition</title>
+  <meta name="description" content="Technical documentation and CI/CD build wiki for TopNotchFreaks Linux 5.15 Android kernels. Designed with Nothing OS aesthetics.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="shell">
-  <!-- overlay + sidebar -->
-  <div class="sb-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-  <aside class="sidebar" id="mobileSidebar">
-    <button class="close-sidebar-btn" onclick="closeSidebar()">✕</button>
-    <div class="sb-top">
-      <div class="sb-logo"><div class="sb-flame">🔥</div><div><div class="sb-title">TopNotchFreaks</div><div class="sb-sub">github.com/topnotchfreaks</div></div></div>
-      <div class="sb-status"><div class="pulse"></div><span>kernel · linux-5.15 · android 13–16</span></div>
+
+<div class="app-shell">
+  <!-- Mobile Backdrop Overlay -->
+  <div class="mobile-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <!-- Left Sidebar / Dock -->
+  <aside class="sidebar" id="appSidebar">
+    <div class="sb-header">
+      <div class="brand-badge">
+        <div class="glyph-icon-box">
+          <span class="glyph-matrix-symbol">TNF</span>
+        </div>
+        <div class="brand-info">
+          <div class="brand-title">TopNotch<span>Freaks</span></div>
+          <div class="brand-sub">KERNEL.OS // V5.15</div>
+        </div>
+      </div>
+      <div class="sb-status-strip">
+        <div class="status-dot-pulse">
+          <span class="live-dot"></span>
+          <span>ONLINE</span>
+        </div>
+        <span class="text-dim">ARM64 · GKI/CLO</span>
+      </div>
     </div>
-    <nav class="sb-nav">
-      <div class="sb-section">Overview</div>
-      <button class="nav-btn on" onclick="go('home','Overview');closeSidebar()"><span class="nav-ic">🏠</span>Home</button>
-      <button class="nav-btn" onclick="go('projects','Build Projects');closeSidebar()"><span class="nav-ic">📋</span>Build Projects</button>
-      <button class="nav-btn" onclick="go('devices','Devices');closeSidebar()"><span class="nav-ic">📱</span>Supported Devices</button>
-      <button class="nav-btn" onclick="go('features','Features');closeSidebar()"><span class="nav-ic">✨</span>Kernel Features</button>
-      <div class="sb-section">Projects</div>
-      <button class="nav-btn p-yask" onclick="go('yask','YASK');closeSidebar()"><span class="nav-ic">🤖</span>YASK</button>
-      <button class="nav-btn p-main" onclick="go('mainbuild','Main Build');closeSidebar()"><span class="nav-ic">🚀</span>Main Build</button>
-      <button class="nav-btn p-adv" onclick="go('advanced','Advanced Build');closeSidebar()"><span class="nav-ic">⚙️</span>Advanced Build</button>
-      <div class="sb-section">Reference</div>
-      <button class="nav-btn" onclick="go('matrix','Build Matrix');closeSidebar()"><span class="nav-ic">🧮</span>Build Matrix</button>
-      <button class="nav-btn" onclick="go('ksu','KSU & SUSFS');closeSidebar()"><span class="nav-ic">🔑</span>KSU & SUSFS</button>
-      <button class="nav-btn" onclick="go('toolchains','Toolchains');closeSidebar()"><span class="nav-ic">🔧</span>Toolchains</button>
-      <button class="nav-btn" onclick="go('inputs','Workflow Inputs');closeSidebar()"><span class="nav-ic">🏗️</span>Inputs</button>
-      <button class="nav-btn" onclick="go('secrets','Secrets');closeSidebar()"><span class="nav-ic">🔒</span>Secrets</button>
-      <button class="nav-btn" onclick="go('artifacts','Artifacts & Output');closeSidebar()"><span class="nav-ic">📦</span>Artifacts</button>
+
+    <!-- Quick Search Widget -->
+    <div class="sb-search-wrap">
+      <div class="search-input-box">
+        <span class="text-dim">⌕</span>
+        <input type="text" id="wikiSearchInput" placeholder="Search wiki..." oninput="handleSearch(this.value)">
+        <span class="search-kbd">ESC</span>
+      </div>
+    </div>
+
+    <!-- Nav Items -->
+    <nav class="sb-nav-scroll" id="navContainer">
+      <div class="nav-group-title">( 01 ) OVERVIEW</div>
+      <button class="nav-item-btn active" data-section="home" onclick="navigate('home', 'Overview')">
+        <div class="nav-btn-left">
+          <span class="nav-dot-indicator"></span>
+          <span>Home</span>
+        </div>
+        <span class="nav-tag-badge">// 01</span>
+      </button>
+      <button class="nav-item-btn" data-section="projects" onclick="navigate('projects', 'Build Projects')">
+        <div class="nav-btn-left">
+          <span class="nav-dot-indicator"></span>
+          <span>Build Projects</span>
+        </div>
+        <span class="nav-tag-badge">// 02</span>
+      </button>
+      <button class="nav-item-btn" data-section="devices" onclick="navigate('devices', 'Supported Devices')">
+        <div class="nav-btn-left">
+          <span class="nav-dot-indicator"></span>
+          <span>Supported Devices</span>
+        </div>
+        <span class="nav-tag-badge">// 03</span>
+      </button>
+      <button class="nav-item-btn" data-section="features" onclick="navigate('features', 'Kernel Features')">
+        <div class="nav-btn-left">
+          <span class="nav-dot-indicator"></span>
+          <span>Kernel Features</span>
+        </div>
+        <span class="nav-tag-badge">// 04</span>
+      </button>
+
+      <div class="nav-group-title">( 02 ) WORKFLOWS</div>
+      <button class="nav-item-btn" data-section="yask" onclick="navigate('yask', 'YASK Weekly')">
+        <div class="nav-btn-left">
+          <span class="nav-dot-indicator"></span>
+          <span>YASK Weekly</span>
+        </div>
+        <span class="nav-tag-badge">// CRON</span>
+      </button>
+      <button class="nav-item-btn" data-section="mainbuild" onclick="navigate('mainbuild', 'Main Build')">
+        <div class="nav-btn-left">
+          <span class="nav-dot-indicator"></span>
+          <span>Main Build</span>
+        </div>
+        <span class="nav-tag-badge">// FAST</span>
+      </button>
+      <button class="nav-item-btn" data-section="advanced" onclick="navigate('advanced', 'Advanced Build')">
+        <div class="nav-btn-left">
+          <span class="nav-dot-indicator"></span>
+          <span>Advanced Build</span>
+        </div>
+        <span class="nav-tag-badge">// CUSTOM</span>
+      </button>
+
+      <div class="nav-group-title">( 03 ) REFERENCE & ARCH</div>
+      <button class="nav-item-btn" data-section="matrix" onclick="navigate('matrix', 'Build Matrix')">
+        <div class="nav-btn-left">
+          <span class="nav-dot-indicator"></span>
+          <span>Build Matrix</span>
+        </div>
+        <span class="nav-tag-badge">// DATA</span>
+      </button>
+      <button class="nav-item-btn" data-section="ksu" onclick="navigate('ksu', 'KSU & SUSFS')">
+        <div class="nav-btn-left">
+          <span class="nav-dot-indicator"></span>
+          <span>KSU & SUSFS</span>
+        </div>
+        <span class="nav-tag-badge">// ROOT</span>
+      </button>
+      <button class="nav-item-btn" data-section="toolchains" onclick="navigate('toolchains', 'Toolchains')">
+        <div class="nav-btn-left">
+          <span class="nav-dot-indicator"></span>
+          <span>Toolchains</span>
+        </div>
+        <span class="nav-tag-badge">// CLANG</span>
+      </button>
+      <button class="nav-item-btn" data-section="inputs" onclick="navigate('inputs', 'Workflow Inputs')">
+        <div class="nav-btn-left">
+          <span class="nav-dot-indicator"></span>
+          <span>Workflow Inputs</span>
+        </div>
+        <span class="nav-tag-badge">// PARAMS</span>
+      </button>
+      <button class="nav-item-btn" data-section="secrets" onclick="navigate('secrets', 'Secrets')">
+        <div class="nav-btn-left">
+          <span class="nav-dot-indicator"></span>
+          <span>Secrets</span>
+        </div>
+        <span class="nav-tag-badge">// AUTH</span>
+      </button>
+      <button class="nav-item-btn" data-section="artifacts" onclick="navigate('artifacts', 'Artifacts & Output')">
+        <div class="nav-btn-left">
+          <span class="nav-dot-indicator"></span>
+          <span>Artifacts & Output</span>
+        </div>
+        <span class="nav-tag-badge">// ZIP</span>
+      </button>
     </nav>
+
+    <div class="sb-footer">
+      <div class="sb-footer-text">
+        <span>NOTHING (R) AESTHETICS</span>
+      </div>
+      <button class="glyph-mini-toggle" onclick="triggerGlyphFlash()" title="Flash Glyph LED">
+        <span style="color: var(--nt-red-vibrant);">●</span> GLYPH
+      </button>
+    </div>
   </aside>
 
-  <div class="page">
-    <div class="topbar">
-      <button class="menu-toggle" id="menuToggleBtn">☰ Menu</button>
-      <div class="bc"><span>topnotchfreaks</span><span class="sep">/</span><span>kernel-wiki</span><span class="sep">/</span><span class="cur" id="bc">home</span></div>
-      <div class="tb-chips"><span class="chip ch-fire">linux-5.15</span><span class="chip ch-ice">android 13–16</span><span class="chip ch-lime">gki + clo</span></div>
-    </div>
-
-    <div class="content">
-      <!-- HOME -->
-      <div class="section on" id="s-home">
-        <div class="hero"><div class="hero-bg">TNF</div><div class="hero-ey">// kernel project wiki v1.0</div><h1><span>TopNotch</span>Freaks<br>Kernel Project</h1><p class="hero-body">GitHub Actions CI/CD for Android Linux 5.15 kernels. Three workflows: weekly YASK, quick Main, and full-control Advanced builds.</p>
-        <div class="hero-stats"><div class="hs"><div class="hs-v">5.15</div><div class="hs-k">Kernel</div></div><div class="hs"><div class="hs-v">3</div><div class="hs-k">Workflows</div></div><div class="hs"><div class="hs-v">GKI+CLO</div><div class="hs-k">Sources</div></div><div class="hs"><div class="hs-v">Wild-KSU</div><div class="hs-k">Root</div></div></div></div>
-        <h2>The Three Build Workflows</h2>
-        <div class="proj-row"><div class="proj yask" onclick="go('yask','YASK')"><div class="proj-tag">🤖 Automated · Weekly</div><h3>YASK</h3><p>Automated weekly release: 4 variants (GKI/CLO + KSU/non-KSU), LTO full, canary KSU. GitHub Release + Telegram.</p><div class="proj-pills"><span class="chip ch-lime">4 variants</span><span class="chip ch-ice">LTO full</span></div></div>
-        <div class="proj main" onclick="go('mainbuild','Main Build')"><div class="proj-tag">🚀 Manual · Simple</div><h3>Main Build</h3><p>Quick manual build from any source. noksu/ksu/both, LTO thin, Wild-KSU stable. ZIP via Telegram.</p><div class="proj-pills"><span class="chip ch-ice">stable KSU</span><span class="chip ch-violet">quick</span></div></div>
-        <div class="proj adv" onclick="go('advanced','Advanced Build')"><div class="proj-tag">⚙️ Manual · Full Control</div><h3>Advanced Build</h3><p>LTO mode, O2/O3/Os, tick rate, 2 toolchains (AOSP/greenforce). Full tuning.</p><div class="proj-pills"><span class="chip ch-fire">O2/O3/Os</span><span class="chip ch-rose">100–1000 Hz</span></div></div></div>
-        <h2>Shared Infrastructure</h2><div class="cards"><div class="card"><div class="card-ic">📦</div><h3>AnyKernel3 packaging</h3><p>Flashable ZIP for all workflows.</p></div><div class="card"><div class="card-ic">💉</div><h3>Shared patches</h3><p>sign-builds, no-dirty, GKI fixup.</p></div><div class="card"><div class="card-ic">🔄</div><h3>Swap expansion</h3><p>10-20 GB to avoid OOM.</p></div></div>
+  <!-- Main Content Wrapper -->
+  <main class="main-wrapper">
+    <!-- Top Sticky Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" onclick="openSidebar()">
+          <span>☰</span> <span>MENU</span>
+        </button>
+        <div class="breadcrumb-strip">
+          <span class="bc-root">topnotchfreaks</span>
+          <span class="bc-sep">/</span>
+          <span class="bc-root">kernel-wiki</span>
+          <span class="bc-sep">/</span>
+          <span class="bc-current" id="bcLabel">Overview</span>
+        </div>
       </div>
 
-      <!-- rest sections dynamically follow same structure as original but with compressed mobile layout -->
-      <div class="section" id="s-projects"><h2>Build Projects Comparison</h2><div class="compare"><div class="cmp-col"><div class="cmp-head yask">YASK.yml</div><div class="cmp-body"><div class="cr"><span class="cr-k">trigger</span><span class="cr-v">weekly+cron</span></div><div class="cr"><span class="cr-k">targets</span><span class="cr-v">4 variants</span></div><div class="cr"><span class="cr-k">LTO</span><span class="cr-v">full</span></div><div class="cr"><span class="cr-k">ksu</span><span class="cr-v">Wild canary</span></div><div class="cr"><span class="cr-k">release</span><span class="cr-v">GitHub Release</span></div></div></div><div class="cmp-col"><div class="cmp-head main">main.yml</div><div class="cmp-body"><div class="cr"><span class="cr-k">trigger</span><span class="cr-v">manual</span></div><div class="cr"><span class="cr-k">variants</span><span class="cr-v">noksu/ksu/both</span></div><div class="cr"><span class="cr-k">LTO</span><span class="cr-v">thin</span></div><div class="cr"><span class="cr-k">ksu</span><span class="cr-v">Wild stable</span></div></div></div><div class="cmp-col"><div class="cmp-head adv">advanced_build.yml</div><div class="cmp-body"><div class="cr"><span class="cr-k">trigger</span><span class="cr-v">manual</span></div><div class="cr"><span class="cr-k">LTO</span><span class="cr-v">thin/full</span></div><div class="cr"><span class="cr-k">toolchains</span><span class="cr-v">2 modes</span></div><div class="cr"><span class="cr-k">optimization</span><span class="cr-v">O2/O3/Os</span></div></div></div></div></div>
-      <div class="section" id="s-devices"><h2>Supported Devices</h2><div class="callout c-info"><span class="callout-ic">ℹ️</span><div class="callout-bd"><strong>Snapdragon 680/685 (MSM 5.15)</strong> — Redmi Note 12/13 series, Redmi Pad SE. GKI or CLO images.</div></div><div class="tw"><table><tr><th>Device</th><th>SoC</th><th>Recommended</th></tr><tr><td class="em">Redmi Note 12 4G</td><td>SD685</td><td>CLO</td></tr><tr><td class="em">Redmi Note 13 4G</td><td>SD685</td><td>CLO</td></tr><tr><td class="em">Redmi Pad SE</td><td>SD680</td><td>GKI</td></tr></table></div></div>
-      <div class="section" id="s-features"><h2>Kernel Features</h2><div class="cards"><div class="card"><div class="card-ic">⚡</div><h3>Full/Thin LTO</h3><p>Clang LTO choices per workflow.</p></div><div class="card"><div class="card-ic">🌐</div><h3>TCP BBR+Westwood</h3><p>Westwood default for mobile.</p></div><div class="card"><div class="card-ic">🛡️</div><h3>Baseband Guard (BBG)</h3><p>LSM modem protection.</p></div><div class="card"><div class="card-ic">🔑</div><h3>Wild KernelSU + SUSFS</h3><p>Root + full hiding.</p></div></div></div>
-      <div class="section" id="s-yask"><h2>YASK — Automated Weekly</h2><div class="tags"><span class="chip ch-lime">weekly sunday</span><span class="chip ch-ice">4 parallel builds</span></div><p>Builds GKI+CLO KSU/non-KSU, full LTO, canary KSU, BBG enabled. Output: All-in-one ZIP under YASK-NEXT release. Telegram photo + link.</p><div class="callout c-ok">✅ Recommended for end users: always get latest stable weekly release.</div></div>
-      <div class="section" id="s-mainbuild"><h2>Main Build — Quick Manual</h2><p>Simple build with LTO thin, stable Wild-KSU. No BBG. Inputs: kernelSourceURL, kernelBranch, device defconfig. Delivers ZIP via Telegram document.</p></div>
-      <div class="section" id="s-advanced"><h2>Advanced Build — Full Control</h2><p>Exposes LTO mode, optimization -O2/O3/Os, tick rate (100–1000Hz), toolchain (AOSP r584948b or greenforce). 20GB swap. BBG always enabled.</p><div class="callout c-warn"><span class="callout-ic">⚠️</span><div class="callout-bd">LTO input case mismatch: LTOOptimizations (capital O) may not propagate correctly.</div></div></div>
-      <div class="section" id="s-matrix"><h2>Build Matrix</h2><div class="tw"><table><tr><th>Workflow</th><th>Variants</th></tr><tr><td>YASK</td><td>GKI-KSU, CLO-KSU, GKI-noksu, CLO-noksu</td></tr><tr><td>Main/Advanced</td><td>dynamic: noksu, ksu, or both</td></tr></table></div></div>
-      <div class="section" id="s-ksu"><h2>KernelSU & SUSFS</h2><p>Wild_KSU (canary or stable) + SUSFS with full hiding (magic mount, spoof uname, kallsyms removal, open redirect, etc). YASK uses canary; Main uses stable; Advanced uses canary.</p><div class="code"><div class="code-bar"><span class="db db-r"></span><span class="db db-y"></span><span class="db db-g"></span><span class="code-fn">SUSFS flags</span></div><pre><span class="cm"># Core hiding features</span>CONFIG_KSU_SUSFS_HAS_MAGIC_MOUNT=y<br>CONFIG_KSU_SUSFS_SUS_PATH=y<br>CONFIG_KSU_SUSFS_SPOOF_UNAME=y</pre></div></div>
-      <div class="section" id="s-toolchains"><h2>Toolchains</h2><div class="tw"><table><tr><th>Toolchain</th><th>Used in</th></tr><tr><td>clang-r547379</td><td>YASK, Main</td></tr><tr><td>clang-r584948b</td><td>Advanced (android-tools)</td> </tr><tr><td>greenforce_clang</td><td>Advanced (custom-tools)</td></tr></table></div></div>
-      <div class="section" id="s-inputs"><h2>Workflow Inputs</h2><div class="callout c-info"><span class="callout-ic">🔧</span><div class="callout-bd">Main/Advanced require: kernelSourceURL, kernelDevice, buildKSU (noksu/ksu/both). Advanced adds LTOOptimizations, optimizationLevel, tickRate, buildToolchains.</div></div></div>
-      <div class="section" id="s-secrets"><h2>Secrets</h2><div class="secret-list"><div class="secret"><div class="secret-key">GH_TOKEN</div><div class="secret-desc">YASK only — to push GitHub Release</div></div><div class="secret"><div class="secret-key">TELEGRAM_BOT_TOKEN</div><div class="secret-desc">All workflows — Telegram bot token</div></div><div class="secret"><div class="secret-key">TELEGRAM_USER_ID</div><div class="secret-desc">All workflows — chat ID</div></div></div></div>
-      <div class="section" id="s-artifacts"><h2>Artifacts & Output</h2><div class="tw">\n<table><tr><th>Workflow</th><th>Final ZIP</th><th>Delivery</th></tr><tr><td>YASK</td><td>Anykernel3_YASK-WildKSU-AIO-FULL_*.zip</td><td>GitHub Release + Telegram photo</td></tr><tr><td>Main</td><td>Anykernel3_WildKSU_*.zip</td><td>Telegram document + artifact</td></tr><tr><td>Advanced</td><td>Anykernel3_*.zip</td><td>Telegram document + artifact</td></tr></table></div></div>
+      <div class="topbar-right">
+        <div class="widget-clock" id="liveClock">00:00:00</div>
+        <span class="chip-pill red">linux-5.15</span>
+        <span class="chip-pill cyan">android 13–16</span>
+        <span class="chip-pill lime">gki + clo</span>
+      </div>
+    </header>
+
+    <!-- Glyph Light Strip (Signature Nothing Element) -->
+    <div class="glyph-bar" id="glyphBar">
+      <div class="glyph-lines-container">
+        <div class="glyph-line g-short red-active" id="g1"></div>
+        <div class="glyph-line g-long active" id="g2"></div>
+        <div class="glyph-line g-med" id="g3"></div>
+        <div class="glyph-line g-dot" id="g4"></div>
+        <div class="glyph-line g-long" id="g5"></div>
+      </div>
+      <div class="font-mono text-dim">
+        SYS.STATE // ACTIVE
+      </div>
     </div>
-  </div>
+
+    <!-- Content Sections -->
+    <div class="content-body">
+
+      <!-- 1. HOME / OVERVIEW -->
+      <section class="doc-section active" id="s-home">
+        <div class="hero-widget-box">
+          <div class="hero-background-glyph">TNF</div>
+          <div class="hero-badge-tag">
+            <span>●</span> CI/CD KERNEL ENGINE // V2.0
+          </div>
+          <h1 class="hero-title">
+            TOPNOTCH<span class="red-text">FREAKS</span><br>KERNEL PROJECT
+          </h1>
+          <p class="hero-lead">
+            High-performance GitHub Actions automated pipeline engineered for Snapdragon 680/685 (MSM 5.15) Linux kernels. Featuring automated weekly releases, granular manual compilation control, Wild KernelSU integration, and SUSFS stealth capabilities.
+          </p>
+
+          <!-- Nothing OS 4-Widget Grid -->
+          <div class="hero-widget-grid">
+            <div class="nt-widget">
+              <div class="nt-widget-tag">
+                <span>Kernel Base</span>
+                <span class="text-red">●</span>
+              </div>
+              <div class="nt-widget-val">5.15</div>
+              <div class="nt-widget-sub">LTS Android Common</div>
+            </div>
+            <div class="nt-widget">
+              <div class="nt-widget-tag">
+                <span>Pipelines</span>
+                <span class="text-white">●</span>
+              </div>
+              <div class="nt-widget-val">03</div>
+              <div class="nt-widget-sub">YASK · Main · Advanced</div>
+            </div>
+            <div class="nt-widget">
+              <div class="nt-widget-tag">
+                <span>Sources</span>
+                <span class="text-muted">●</span>
+              </div>
+              <div class="nt-widget-val">GKI+CLO</div>
+              <div class="nt-widget-sub">Generic & Qualcomm CAF</div>
+            </div>
+            <div class="nt-widget">
+              <div class="nt-widget-tag">
+                <span>Root Hook</span>
+                <span class="text-red">●</span>
+              </div>
+              <div class="nt-widget-val">Wild-KSU</div>
+              <div class="nt-widget-sub">+ SUSFS Systemless Stealth</div>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="sub-title">The Three Build Workflows</h2>
+        <div class="nt-card-grid tri-col">
+          <!-- YASK Card -->
+          <div class="nt-card yask-card" onclick="navigate('yask', 'YASK Weekly')">
+            <div class="nt-card-header">
+              <span class="nt-card-chip">🤖 Automated · Weekly</span>
+              <span class="arrow-icon-link">↗</span>
+            </div>
+            <div class="nt-card-title">YASK Pipeline</div>
+            <p class="nt-card-desc">
+              Automated weekly release triggered every Sunday. Builds 4 parallel variants (GKI/CLO × KSU/noksu) with Clang Full LTO, Wild-KSU canary, and Baseband Guard. Deploys GitHub Release & Telegram notification.
+            </p>
+            <div class="nt-card-footer">
+              <div class="nt-pill-group">
+                <span class="chip-pill lime">4 variants</span>
+                <span class="chip-pill">LTO Full</span>
+                <span class="chip-pill">Cron</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Build Card -->
+          <div class="nt-card main-card" onclick="navigate('mainbuild', 'Main Build')">
+            <div class="nt-card-header">
+              <span class="nt-card-chip">🚀 Fast Manual</span>
+              <span class="arrow-icon-link">↗</span>
+            </div>
+            <div class="nt-card-title">Main Build</div>
+            <p class="nt-card-desc">
+              Lightweight manual dispatch workflow for quick prototyping from any repository branch. Supports noksu, ksu, or both with Thin LTO and stable Wild-KSU. Direct Telegram document delivery.
+            </p>
+            <div class="nt-card-footer">
+              <div class="nt-pill-group">
+                <span class="chip-pill cyan">Thin LTO</span>
+                <span class="chip-pill">Stable KSU</span>
+                <span class="chip-pill">Fast</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Advanced Build Card -->
+          <div class="nt-card adv-card" onclick="navigate('advanced', 'Advanced Build')">
+            <div class="nt-card-header">
+              <span class="nt-card-chip">⚙️ Full Control</span>
+              <span class="arrow-icon-link">↗</span>
+            </div>
+            <div class="nt-card-title">Advanced Build</div>
+            <p class="nt-card-desc">
+              Deep tuning compilation engine. Configure compiler optimization (-O2, -O3, -Os), timer frequency (100–1000 Hz), LTO thin/full, and dual toolchain switching (AOSP Clang vs Greenforce).
+            </p>
+            <div class="nt-card-footer">
+              <div class="nt-pill-group">
+                <span class="chip-pill red">O2/O3/Os</span>
+                <span class="chip-pill">100–1000Hz</span>
+                <span class="chip-pill">2 Toolchains</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="sub-title">Shared Infrastructure Core</h2>
+        <div class="nt-card-grid">
+          <div class="nt-card">
+            <div class="nt-card-title" style="font-size: 18px;">📦 AnyKernel3 Packaging</div>
+            <p class="nt-card-desc">Standardized flashable ZIP generation for recovery flashing across all workflow output artifacts with auto-detection.</p>
+          </div>
+          <div class="nt-card">
+            <div class="nt-card-title" style="font-size: 18px;">💉 Unified Patch System</div>
+            <p class="nt-card-desc">Automated sign-builds, no-dirty flag injection, GKI boot fixup, and defconfig sanitization before compilation begins.</p>
+          </div>
+          <div class="nt-card">
+            <div class="nt-card-title" style="font-size: 18px;">🔄 Dynamic Swap Expansion</div>
+            <p class="nt-card-desc">10–20 GB runner swap space allocation to completely prevent Out-Of-Memory (OOM) compiler crashes during heavy LTO linking.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. BUILD PROJECTS COMPARISON -->
+      <section class="doc-section" id="s-projects">
+        <div class="section-headline">
+          <div class="section-label">// COMPARISON MATRIX</div>
+          <h1 class="section-title">Build Workflows Compared</h1>
+          <p class="section-desc">Side-by-side technical specification of the three CI/CD workflow pipelines.</p>
+        </div>
+
+        <div class="compare-container">
+          <!-- YASK Specs -->
+          <div class="cmp-card">
+            <div class="cmp-head yask">
+              <div class="cmp-head-title">YASK.yml</div>
+              <span class="chip-pill lime">Automated</span>
+            </div>
+            <div class="cmp-body">
+              <div class="cmp-row"><span class="cmp-key">Trigger</span><span class="cmp-val">Weekly Sunday + Manual</span></div>
+              <div class="cmp-row"><span class="cmp-key">Targets</span><span class="cmp-val">4 Parallel Variants</span></div>
+              <div class="cmp-row"><span class="cmp-key">LTO Mode</span><span class="cmp-val">Full LTO</span></div>
+              <div class="cmp-row"><span class="cmp-key">KernelSU</span><span class="cmp-val">Wild-KSU (Canary)</span></div>
+              <div class="cmp-row"><span class="cmp-key">SUSFS</span><span class="cmp-val">Enabled (Full Hiding)</span></div>
+              <div class="cmp-row"><span class="cmp-key">Baseband Guard</span><span class="cmp-val">Enabled</span></div>
+              <div class="cmp-row"><span class="cmp-key">Toolchain</span><span class="cmp-val">AOSP Clang r547379</span></div>
+              <div class="cmp-row"><span class="cmp-key">Delivery</span><span class="cmp-val">GitHub Release + TG</span></div>
+            </div>
+          </div>
+
+          <!-- Main Specs -->
+          <div class="cmp-card">
+            <div class="cmp-head main">
+              <div class="cmp-head-title">main.yml</div>
+              <span class="chip-pill cyan">Manual Quick</span>
+            </div>
+            <div class="cmp-body">
+              <div class="cmp-row"><span class="cmp-key">Trigger</span><span class="cmp-val">Manual Dispatch</span></div>
+              <div class="cmp-row"><span class="cmp-key">Targets</span><span class="cmp-val">noksu / ksu / both</span></div>
+              <div class="cmp-row"><span class="cmp-key">LTO Mode</span><span class="cmp-val">Thin LTO</span></div>
+              <div class="cmp-row"><span class="cmp-key">KernelSU</span><span class="cmp-val">Wild-KSU (Stable)</span></div>
+              <div class="cmp-row"><span class="cmp-key">SUSFS</span><span class="cmp-val">Disabled / Optional</span></div>
+              <div class="cmp-row"><span class="cmp-key">Baseband Guard</span><span class="cmp-val">Disabled</span></div>
+              <div class="cmp-row"><span class="cmp-key">Toolchain</span><span class="cmp-val">AOSP Clang r547379</span></div>
+              <div class="cmp-row"><span class="cmp-key">Delivery</span><span class="cmp-val">Telegram Document + Zip</span></div>
+            </div>
+          </div>
+
+          <!-- Advanced Specs -->
+          <div class="cmp-card">
+            <div class="cmp-head adv">
+              <div class="cmp-head-title">advanced_build.yml</div>
+              <span class="chip-pill red">Full Control</span>
+            </div>
+            <div class="cmp-body">
+              <div class="cmp-row"><span class="cmp-key">Trigger</span><span class="cmp-val">Manual Dispatch</span></div>
+              <div class="cmp-row"><span class="cmp-key">Targets</span><span class="cmp-val">noksu / ksu / both</span></div>
+              <div class="cmp-row"><span class="cmp-key">LTO Mode</span><span class="cmp-val">Thin / Full (Selectable)</span></div>
+              <div class="cmp-row"><span class="cmp-key">Optimization</span><span class="cmp-val">-O2 / -O3 / -Os</span></div>
+              <div class="cmp-row"><span class="cmp-key">Tick Rate</span><span class="cmp-val">100 / 250 / 300 / 1000 Hz</span></div>
+              <div class="cmp-row"><span class="cmp-key">Toolchain</span><span class="cmp-val">r584948b / Greenforce</span></div>
+              <div class="cmp-row"><span class="cmp-key">Swap Allocated</span><span class="cmp-val">20 GB</span></div>
+              <div class="cmp-row"><span class="cmp-key">Delivery</span><span class="cmp-val">Telegram Document + Zip</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nt-callout c-info">
+          <div class="callout-icon">ℹ</div>
+          <div class="callout-content">
+            <strong>Recommendation Guide:</strong> For everyday daily-driver stability, flash the latest automated <strong>YASK</strong> release. For testing custom branches or new commits, run <strong>Main Build</strong>. For maximum kernel tuning and overclock/tick-rate experimentation, use <strong>Advanced Build</strong>.
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. SUPPORTED DEVICES -->
+      <section class="doc-section" id="s-devices">
+        <div class="section-headline">
+          <div class="section-label">// HARDWARE TARGETS</div>
+          <h1 class="section-title">Supported Devices</h1>
+          <p class="section-desc">Qualcomm Snapdragon 680 / 685 (MSM 5.15) hardware matrix and recommended kernel branches.</p>
+        </div>
+
+        <div class="nt-callout c-info">
+          <div class="callout-icon">ℹ</div>
+          <div class="callout-content">
+            <strong>SoC Architecture:</strong> Qualcomm Snapdragon 680 (SM6225) & Snapdragon 685 (SM6225-AD) running Linux LTS kernel version 5.15 on Android 13, 14, 15, and 16.
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="nt-table">
+            <thead>
+              <tr>
+                <th>Device Model</th>
+                <th>Codename</th>
+                <th>SoC Platform</th>
+                <th>Recommended Build</th>
+                <th>Defconfig Target</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="strong-text">Redmi Note 12 4G</td>
+                <td><span class="chip-pill cyan">topaz / tapas</span></td>
+                <td>Snapdragon 685</td>
+                <td><span class="chip-pill red">CLO (CAF)</span></td>
+                <td>vendor/bengal-perf_defconfig</td>
+              </tr>
+              <tr>
+                <td class="strong-text">Redmi Note 13 4G</td>
+                <td><span class="chip-pill cyan">sapphire / sapphiren</span></td>
+                <td>Snapdragon 685</td>
+                <td><span class="chip-pill red">CLO (CAF)</span></td>
+                <td>vendor/bengal-perf_defconfig</td>
+              </tr>
+              <tr>
+                <td class="strong-text">Redmi Pad SE</td>
+                <td><span class="chip-pill cyan">xun</span></td>
+                <td>Snapdragon 680</td>
+                <td><span class="chip-pill lime">GKI (Generic)</span></td>
+                <td>gki_defconfig</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 class="sub-title">GKI vs CLO Image Guide</h2>
+        <div class="nt-card-grid">
+          <div class="nt-card">
+            <div class="nt-card-title">GKI (Generic Kernel Image)</div>
+            <p class="nt-card-desc">Standard Google-compliant kernel architecture. Ideal for generic custom ROMs and devices utilizing standardized GKI boot partitions (e.g., Redmi Pad SE).</p>
+          </div>
+          <div class="nt-card">
+            <div class="nt-card-title">CLO (Qualcomm CodeLinaro)</div>
+            <p class="nt-card-desc">Qualcomm proprietary optimized tree tailored with chipset-specific driver enhancements for Snapdragon 685 display panels and camera sensors.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. KERNEL FEATURES -->
+      <section class="doc-section" id="s-features">
+        <div class="section-headline">
+          <div class="section-label">// OPTIMIZATIONS & MODULES</div>
+          <h1 class="section-title">Kernel Engine Features</h1>
+          <p class="section-desc">Key architectural improvements, security modules, and performance patches integrated into the kernel.</p>
+        </div>
+
+        <div class="nt-card-grid">
+          <div class="nt-card">
+            <div class="nt-card-title">⚡ Clang LTO (Link-Time Optimization)</div>
+            <p class="nt-card-desc">Full cross-translation unit optimization. Eliminates dead code, inlines hot functions across object boundaries, and maximizes execution throughput.</p>
+            <div class="nt-pill-group">
+              <span class="chip-pill">Thin LTO</span>
+              <span class="chip-pill red">Full LTO</span>
+            </div>
+          </div>
+
+          <div class="nt-card">
+            <div class="nt-card-title">🌐 TCP BBR + Westwood</div>
+            <p class="nt-card-desc">Modern congestion control algorithms. TCP Westwood is enabled by default to dramatically reduce packet loss and bufferbloat over volatile mobile cellular data connections.</p>
+            <div class="nt-pill-group">
+              <span class="chip-pill cyan">BBR v1</span>
+              <span class="chip-pill lime">Westwood Default</span>
+            </div>
+          </div>
+
+          <div class="nt-card">
+            <div class="nt-card-title">🛡️ Baseband Guard (BBG)</div>
+            <p class="nt-card-desc">Custom Linux Security Module (LSM) protecting the baseband and modem interfaces against unauthorized tampering and privilege escalation attacks.</p>
+            <div class="nt-pill-group">
+              <span class="chip-pill red">LSM Hook</span>
+              <span class="chip-pill">Modem Isolation</span>
+            </div>
+          </div>
+
+          <div class="nt-card">
+            <div class="nt-card-title">🔑 Wild KernelSU + SUSFS</div>
+            <p class="nt-card-desc">Next-generation kernel-based root hook. Paired with SUSFS kernel patches for complete stealth (spoofing uname, magic mount hiding, kallsyms stripping).</p>
+            <div class="nt-pill-group">
+              <span class="chip-pill lime">SUSFS v1.5+</span>
+              <span class="chip-pill">Play Integrity Pass</span>
+            </div>
+          </div>
+
+          <div class="nt-card">
+            <div class="nt-card-title">🔄 Dynamic Swap & ZRAM</div>
+            <p class="nt-card-desc">Runner swap allocation of up to 20 GB ensuring high memory-pressure builds succeed without clang-ld fatal terminations.</p>
+            <div class="nt-pill-group">
+              <span class="chip-pill">20GB Swap</span>
+              <span class="chip-pill">ZRAM Support</span>
+            </div>
+          </div>
+
+          <div class="nt-card">
+            <div class="nt-card-title">💉 Automated Tree Fixups</div>
+            <p class="nt-card-desc">Automated git dirty flag suppression, patch signature validation, and defconfig auto-merging integrated directly into the pre-build pipeline.</p>
+            <div class="nt-pill-group">
+              <span class="chip-pill">Auto Patch</span>
+              <span class="chip-pill">No-Dirty</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. YASK DEEP DIVE -->
+      <section class="doc-section" id="s-yask">
+        <div class="section-headline">
+          <div class="section-label">// AUTOMATED RELEASE PIPELINE</div>
+          <h1 class="section-title">YASK — Yet Another Stable Kernel</h1>
+          <p class="section-desc">Automated weekly production release engine generating 4 synchronized builds every Sunday.</p>
+        </div>
+
+        <div class="nt-callout c-success">
+          <div class="callout-icon">✓</div>
+          <div class="callout-content">
+            <strong>Recommended for End Users:</strong> YASK produces tested, production-grade flashable zip bundles with Full LTO and latest upstream security patches.
+          </div>
+        </div>
+
+        <h2 class="sub-title">YASK Execution Lifecycle</h2>
+        <div class="step-flow">
+          <div class="step-card-item">
+            <div class="step-card-title">01. Automated Sunday Cron Trigger</div>
+            <div class="step-card-desc">Fires automatically every Sunday via GitHub Actions schedule cron (or on-demand manual trigger).</div>
+          </div>
+          <div class="step-card-item">
+            <div class="step-card-title">02. 4-Variant Parallel Build Matrix</div>
+            <div class="step-card-desc">Matrix compiles 4 simultaneous variants: GKI with KSU, GKI non-KSU, CLO with KSU, CLO non-KSU using AOSP Clang r547379.</div>
+          </div>
+          <div class="step-card-item">
+            <div class="step-card-title">03. Full LTO & SUSFS Integration</div>
+            <div class="step-card-desc">Applies Wild-KSU canary source, integrates SUSFS patch tree, and compiles with Full Link-Time Optimization.</div>
+          </div>
+          <div class="step-card-item">
+            <div class="step-card-title">04. AnyKernel3 All-In-One ZIP Bundling</div>
+            <div class="step-card-desc">Packages binaries into <code>Anykernel3_YASK-WildKSU-AIO-FULL_*.zip</code>.</div>
+          </div>
+          <div class="step-card-item">
+            <div class="step-card-title">05. Dual Release Deployment</div>
+            <div class="step-card-desc">Publishes draft/release to GitHub Releases tag (<code>YASK-NEXT</code>) and sends interactive Telegram photo message with changelog.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. MAIN BUILD -->
+      <section class="doc-section" id="s-mainbuild">
+        <div class="section-headline">
+          <div class="section-label">// RAPID MANUAL DISPATCH</div>
+          <h1 class="section-title">Main Build Workflow</h1>
+          <p class="section-desc">Quick turnaround compilation workflow for rapid kernel testing and debugging.</p>
+        </div>
+
+        <p class="text-white-dim" style="margin-bottom: 24px;">
+          The Main Build (<code>main.yml</code>) is designed for developer experimentation. It uses <strong>Thin LTO</strong> for rapid compilation times while retaining performance optimizations, and packages stable Wild-KSU.
+        </p>
+
+        <h2 class="sub-title">Workflow Input Parameters</h2>
+        <div class="table-wrapper">
+          <table class="nt-table">
+            <thead>
+              <tr>
+                <th>Input Variable</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default / Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="strong-text">kernelSourceURL</td>
+                <td><span class="chip-pill">string</span></td>
+                <td>Git URL of the target kernel source tree</td>
+                <td>https://github.com/...</td>
+              </tr>
+              <tr>
+                <td class="strong-text">kernelBranch</td>
+                <td><span class="chip-pill">string</span></td>
+                <td>Target branch to clone and checkout</td>
+                <td>14.0, 15.0, staging</td>
+              </tr>
+              <tr>
+                <td class="strong-text">kernelDevice</td>
+                <td><span class="chip-pill">string</span></td>
+                <td>Target device defconfig name</td>
+                <td>vendor/bengal-perf_defconfig</td>
+              </tr>
+              <tr>
+                <td class="strong-text">buildKSU</td>
+                <td><span class="chip-pill cyan">choice</span></td>
+                <td>KSU inclusion mode: <code>noksu</code>, <code>ksu</code>, or <code>both</code></td>
+                <td>ksu</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 7. ADVANCED BUILD -->
+      <section class="doc-section" id="s-advanced">
+        <div class="section-headline">
+          <div class="section-label">// MAXIMUM TUNING CONTROL</div>
+          <h1 class="section-title">Advanced Build Engine</h1>
+          <p class="section-desc">Fine-grained compilation parameter matrix for kernel engineers and tuners.</p>
+        </div>
+
+        <div class="nt-callout c-warn">
+          <div class="callout-icon">⚠</div>
+          <div class="callout-content">
+            <strong>Case Sensitivity Notice:</strong> The parameter <code>LTOOptimizations</code> requires exact casing in workflow dispatch to properly propagate flags to the build environment.
+          </div>
+        </div>
+
+        <h2 class="sub-title">Advanced Parameter Controls</h2>
+        <div class="nt-card-grid">
+          <div class="nt-card">
+            <div class="nt-card-title">Compiler Optimization Level</div>
+            <p class="nt-card-desc">Select between <code>-O2</code> (standard balance), <code>-O3</code> (aggressive vectorization and loop unrolling for peak performance), or <code>-Os</code> (size optimized).</p>
+          </div>
+          <div class="nt-card">
+            <div class="nt-card-title">Timer Tick Frequency (HZ)</div>
+            <p class="nt-card-desc">Configure kernel timer interrupt frequency between <code>100Hz</code> (battery saver), <code>250Hz</code>, <code>300Hz</code> (standard), and <code>1000Hz</code> (ultra-low latency gaming).</p>
+          </div>
+          <div class="nt-card">
+            <div class="nt-card-title">Toolchain Selector</div>
+            <p class="nt-card-desc">Switch between standard Google AOSP Clang (<code>clang-r584948b</code>) and custom optimized Greenforce Clang with latest LLVM backend patches.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. BUILD MATRIX -->
+      <section class="doc-section" id="s-matrix">
+        <div class="section-headline">
+          <div class="section-label">// SPECIFICATION REFERENCE</div>
+          <h1 class="section-title">Comprehensive Build Matrix</h1>
+          <p class="section-desc">Unified matrix overview of all pipelines and target configurations.</p>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="nt-table">
+            <thead>
+              <tr>
+                <th>Workflow</th>
+                <th>Target Variants</th>
+                <th>LTO Optimization</th>
+                <th>Compiler Suite</th>
+                <th>Output Format</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="strong-text">YASK (Automated)</td>
+                <td>GKI-KSU, CLO-KSU, GKI-noksu, CLO-noksu</td>
+                <td><span class="chip-pill red">Full LTO</span></td>
+                <td>AOSP Clang r547379</td>
+                <td>GitHub Release + Telegram</td>
+              </tr>
+              <tr>
+                <td class="strong-text">Main Build</td>
+                <td>Dynamic (noksu / ksu / both)</td>
+                <td><span class="chip-pill cyan">Thin LTO</span></td>
+                <td>AOSP Clang r547379</td>
+                <td>Telegram Document ZIP</td>
+              </tr>
+              <tr>
+                <td class="strong-text">Advanced Build</td>
+                <td>Dynamic (noksu / ksu / both)</td>
+                <td><span class="chip-pill">Selectable (Thin/Full)</span></td>
+                <td>r584948b / Greenforce</td>
+                <td>Telegram Document ZIP</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 9. KSU & SUSFS -->
+      <section class="doc-section" id="s-ksu">
+        <div class="section-headline">
+          <div class="section-label">// KERNEL ROOT & STEALTH</div>
+          <h1 class="section-title">KernelSU & SUSFS Integration</h1>
+          <p class="section-desc">Kernel-level privilege management combined with SUSFS evasion mechanisms.</p>
+        </div>
+
+        <div class="nt-callout c-info">
+          <div class="callout-icon">ℹ</div>
+          <div class="callout-content">
+            <strong>Stealth Architecture:</strong> SUSFS patches intercept sys_call tables and VFS layers to hide mounted overlayfs directories, strip KernelSU symbols from <code>/proc/kallsyms</code>, and bypass Play Integrity / root detectors seamlessly.
+          </div>
+        </div>
+
+        <h2 class="sub-title">SUSFS Kernel Configuration Flags</h2>
+        <div class="nt-code-box">
+          <div class="code-top-header">
+            <div class="code-title-spec">
+              <div class="code-dots-indicator">
+                <span class="code-dot red"></span>
+                <span class="code-dot"></span>
+                <span class="code-dot"></span>
+              </div>
+              <span>kconfig // susfs_core_flags.conf</span>
+            </div>
+            <button class="copy-btn" onclick="copyCode(this)">
+              <span>⧉</span> Copy Kconfig
+            </button>
+          </div>
+          <pre><code><span class="syn-comment"># Core SUSFS KernelSU Stealth Configuration</span>
+<span class="syn-key">CONFIG_KSU_SUSFS</span>=<span class="syn-val">y</span>
+<span class="syn-key">CONFIG_KSU_SUSFS_HAS_MAGIC_MOUNT</span>=<span class="syn-val">y</span>
+<span class="syn-key">CONFIG_KSU_SUSFS_SUS_PATH</span>=<span class="syn-val">y</span>
+<span class="syn-key">CONFIG_KSU_SUSFS_SUS_MOUNT</span>=<span class="syn-val">y</span>
+<span class="syn-key">CONFIG_KSU_SUSFS_SUS_KSTAT</span>=<span class="syn-val">y</span>
+<span class="syn-key">CONFIG_KSU_SUSFS_SUS_OVERLAYFS</span>=<span class="syn-val">y</span>
+<span class="syn-key">CONFIG_KSU_SUSFS_TRY_UMOUNT</span>=<span class="syn-val">y</span>
+<span class="syn-key">CONFIG_KSU_SUSFS_SPOOF_UNAME</span>=<span class="syn-val">y</span>
+<span class="syn-key">CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS</span>=<span class="syn-val">y</span>
+<span class="syn-key">CONFIG_KSU_SUSFS_OPEN_REDIRECT</span>=<span class="syn-val">y</span></code></pre>
+        </div>
+      </section>
+
+      <!-- 10. TOOLCHAINS -->
+      <section class="doc-section" id="s-toolchains">
+        <div class="section-headline">
+          <div class="section-label">// COMPILER TOOLCHAINS</div>
+          <h1 class="section-title">Clang Compiler Toolchains</h1>
+          <p class="section-desc">LLVM/Clang compiler toolchains utilized across the build infrastructure.</p>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="nt-table">
+            <thead>
+              <tr>
+                <th>Toolchain Identifier</th>
+                <th>Branch / Version</th>
+                <th>Workflows Used</th>
+                <th>Optimization Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="strong-text">clang-r547379</td>
+                <td>AOSP Clang 18.0</td>
+                <td><span class="chip-pill lime">YASK</span> <span class="chip-pill cyan">Main</span></td>
+                <td>Standard Google AOSP production compiler with Full LTO stability.</td>
+              </tr>
+              <tr>
+                <td class="strong-text">clang-r584948b</td>
+                <td>AOSP Clang 20.0</td>
+                <td><span class="chip-pill red">Advanced</span></td>
+                <td>Bleeding-edge AOSP toolchain with enhanced loop vectorizer passes.</td>
+              </tr>
+              <tr>
+                <td class="strong-text">greenforce_clang</td>
+                <td>Custom LLVM 19+</td>
+                <td><span class="chip-pill red">Advanced</span></td>
+                <td>Optimized with Polly loop optimizer and Cortex-A53 / Kryo 265 tuning.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 11. WORKFLOW INPUTS -->
+      <section class="doc-section" id="s-inputs">
+        <div class="section-headline">
+          <div class="section-label">// DISPATCH SPECIFICATIONS</div>
+          <h1 class="section-title">GitHub Actions Workflow Inputs</h1>
+          <p class="section-desc">Reference table of all input variables accepted by workflow dispatch triggers.</p>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="nt-table">
+            <thead>
+              <tr>
+                <th>Variable Name</th>
+                <th>Workflows</th>
+                <th>Allowed Values</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="strong-text">kernelSourceURL</td>
+                <td>Main, Advanced</td>
+                <td>Git URI</td>
+                <td>Specifies the repository source URL.</td>
+              </tr>
+              <tr>
+                <td class="strong-text">kernelBranch</td>
+                <td>Main, Advanced</td>
+                <td>Branch Name</td>
+                <td>Specifies the git branch to checkout.</td>
+              </tr>
+              <tr>
+                <td class="strong-text">kernelDevice</td>
+                <td>Main, Advanced</td>
+                <td>Defconfig file</td>
+                <td>Device defconfig file location.</td>
+              </tr>
+              <tr>
+                <td class="strong-text">buildKSU</td>
+                <td>All</td>
+                <td>noksu, ksu, both</td>
+                <td>Selects KernelSU packaging mode.</td>
+              </tr>
+              <tr>
+                <td class="strong-text">LTOOptimizations</td>
+                <td>Advanced</td>
+                <td>thin, full</td>
+                <td>Selects Clang Link-Time Optimization tier.</td>
+              </tr>
+              <tr>
+                <td class="strong-text">optimizationLevel</td>
+                <td>Advanced</td>
+                <td>O2, O3, Os</td>
+                <td>Compiler optimization pass level.</td>
+              </tr>
+              <tr>
+                <td class="strong-text">tickRate</td>
+                <td>Advanced</td>
+                <td>100, 250, 300, 1000</td>
+                <td>Kernel timer interrupt frequency in Hz.</td>
+              </tr>
+              <tr>
+                <td class="strong-text">buildToolchains</td>
+                <td>Advanced</td>
+                <td>android-tools, custom-tools</td>
+                <td>Chooses AOSP Clang vs Greenforce Clang.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 12. SECRETS -->
+      <section class="doc-section" id="s-secrets">
+        <div class="section-headline">
+          <div class="section-label">// AUTHENTICATION & TOKENS</div>
+          <h1 class="section-title">Repository Secrets</h1>
+          <p class="section-desc">Required GitHub Actions repository environment secrets for automated deployment.</p>
+        </div>
+
+        <div class="secret-grid">
+          <div class="secret-card">
+            <div class="secret-header">
+              <span class="secret-key-name">GH_TOKEN</span>
+              <span class="secret-scope">YASK Scope</span>
+            </div>
+            <p class="secret-desc-text">GitHub Personal Access Token (PAT) with <code>repo</code> write permissions required to push binary releases and draft tags under YASK-NEXT.</p>
+          </div>
+
+          <div class="secret-card">
+            <div class="secret-header">
+              <span class="secret-key-name">TELEGRAM_BOT_TOKEN</span>
+              <span class="secret-scope">Global Scope</span>
+            </div>
+            <p class="secret-desc-text">Telegram Bot API token provided by BotFather to authenticate release messages and file uploads to the community channel.</p>
+          </div>
+
+          <div class="secret-card">
+            <div class="secret-header">
+              <span class="secret-key-name">TELEGRAM_USER_ID</span>
+              <span class="secret-scope">Global Scope</span>
+            </div>
+            <p class="secret-desc-text">Numeric Telegram Chat / Channel ID where build logs, status photos, and compiled flashable ZIP documents are delivered.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13. ARTIFACTS & OUTPUT -->
+      <section class="doc-section" id="s-artifacts">
+        <div class="section-headline">
+          <div class="section-label">// PACKAGING & DEPLOYMENT</div>
+          <h1 class="section-title">Artifacts & Distribution</h1>
+          <p class="section-desc">Flashable AnyKernel3 ZIP naming standards and delivery pipeline channels.</p>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="nt-table">
+            <thead>
+              <tr>
+                <th>Workflow Pipeline</th>
+                <th>Generated ZIP Filename Pattern</th>
+                <th>Delivery Endpoint</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="strong-text">YASK (Automated)</td>
+                <td><code>Anykernel3_YASK-WildKSU-AIO-FULL_*.zip</code></td>
+                <td>GitHub Release Tag + Telegram Photo Preview</td>
+              </tr>
+              <tr>
+                <td class="strong-text">Main Build</td>
+                <td><code>Anykernel3_WildKSU_*.zip</code></td>
+                <td>Telegram Direct Document + GitHub Actions Artifact</td>
+              </tr>
+              <tr>
+                <td class="strong-text">Advanced Build</td>
+                <td><code>Anykernel3_*.zip</code></td>
+                <td>Telegram Direct Document + GitHub Actions Artifact</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
 </div>
+
+<!-- Floating Toast Notification -->
+<div class="nt-toast" id="appToast">
+  <span class="nt-toast-dot"></span>
+  <span id="toastMessage">COPIED TO CLIPBOARD</span>
+</div>
+
 <script>
-function go(id, label) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('on'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('on'));
-  const sec = document.getElementById('s-' + id);
-  if (sec) sec.classList.add('on');
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    const oc = btn.getAttribute('onclick') || '';
-    if (oc.includes("'" + id + "'")) btn.classList.add('on');
-  });
-  document.getElementById('bc').textContent = label || id;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+// Live System Clock
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  const s = String(now.getSeconds()).padStart(2, '0');
+  const clockEl = document.getElementById('liveClock');
+  if (clockEl) clockEl.textContent = `${h}:${m}:${s}`;
 }
-function openSidebar() { document.getElementById('mobileSidebar').classList.add('open'); document.getElementById('sidebarOverlay').classList.add('open'); }
-function closeSidebar() { document.getElementById('mobileSidebar').classList.remove('open'); document.getElementById('sidebarOverlay').classList.remove('open'); }
-document.getElementById('menuToggleBtn').addEventListener('click', openSidebar);
-window.addEventListener('resize', () => { if(window.innerWidth > 800) closeSidebar(); });
-if(window.innerWidth <= 800) closeSidebar();
+setInterval(updateClock, 1000);
+updateClock();
+
+// Navigation Controller
+function navigate(sectionId, label) {
+  // Hide all sections
+  document.querySelectorAll('.doc-section').forEach(sec => sec.classList.remove('active'));
+  
+  // Show target section
+  const target = document.getElementById('s-' + sectionId);
+  if (target) {
+    target.classList.add('active');
+  }
+
+  // Update nav buttons
+  document.querySelectorAll('.nav-item-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.getAttribute('data-section') === sectionId) {
+      btn.classList.add('active');
+    }
+  });
+
+  // Update breadcrumb
+  const bc = document.getElementById('bcLabel');
+  if (bc) bc.textContent = label || sectionId;
+
+  // Update URL hash
+  if (history.pushState) {
+    history.pushState(null, null, '#' + sectionId);
+  } else {
+    location.hash = '#' + sectionId;
+  }
+
+  // Pulse glyph light bars
+  animateGlyphs();
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Close mobile sidebar if open
+  closeSidebar();
+}
+
+// Glyph Light Bar Interaction
+function animateGlyphs() {
+  const lines = document.querySelectorAll('.glyph-line');
+  lines.forEach((line, idx) => {
+    setTimeout(() => {
+      line.classList.add('active');
+      setTimeout(() => {
+        if (!line.classList.contains('red-active') && idx !== 1) {
+          line.classList.remove('active');
+        }
+      }, 400);
+    }, idx * 60);
+  });
+}
+
+function triggerGlyphFlash() {
+  const glyphBar = document.getElementById('glyphBar');
+  const lines = document.querySelectorAll('.glyph-line');
+  showToast("GLYPH MATRIX FLASH");
+  lines.forEach(l => l.classList.add('active', 'red-active'));
+  setTimeout(() => {
+    lines.forEach((l, idx) => {
+      if (idx !== 0) l.classList.remove('red-active');
+      if (idx !== 1) l.classList.remove('active');
+    });
+  }, 800);
+}
+
+// Copy Code Helper
+function copyCode(btn) {
+  const codeBox = btn.closest('.nt-code-box');
+  if (!codeBox) return;
+  const code = codeBox.querySelector('pre code') || codeBox.querySelector('pre');
+  if (!code) return;
+
+  navigator.clipboard.writeText(code.innerText.trim()).then(() => {
+    showToast("COPIED TO CLIPBOARD");
+    const originalText = btn.innerHTML;
+    btn.innerHTML = `<span>✓</span> COPIED`;
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+    }, 2000);
+  }).catch(err => {
+    showToast("COPY FAILED");
+  });
+}
+
+// Toast Controller
+let toastTimeout;
+function showToast(msg) {
+  const toast = document.getElementById('appToast');
+  const toastMsg = document.getElementById('toastMessage');
+  if (!toast || !toastMsg) return;
+  toastMsg.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2200);
+}
+
+// Search Filter Handler
+function handleSearch(query) {
+  const q = query.toLowerCase().trim();
+  const navBtns = document.querySelectorAll('.nav-item-btn');
+  
+  navBtns.forEach(btn => {
+    const text = btn.textContent.toLowerCase();
+    const secId = btn.getAttribute('data-section') || '';
+    if (!q || text.includes(q) || secId.includes(q)) {
+      btn.style.display = 'flex';
+    } else {
+      btn.style.display = 'none';
+    }
+  });
+
+  // If exact match or enter pressed, jump to section
+  if (q.length > 2) {
+    for (const btn of navBtns) {
+      if (btn.style.display !== 'none') {
+        const secId = btn.getAttribute('data-section');
+        if (secId) {
+          navigate(secId, btn.querySelector('span:not(.nav-dot-indicator):not(.nav-tag-badge)').textContent);
+          break;
+        }
+      }
+    }
+  }
+}
+
+// Keyboard shortcut (Esc to clear search, / to focus search)
+document.addEventListener('keydown', (e) => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+    e.preventDefault();
+    const searchInput = document.getElementById('wikiSearchInput');
+    if (searchInput) searchInput.focus();
+  } else if (e.key === 'Escape') {
+    const searchInput = document.getElementById('wikiSearchInput');
+    if (searchInput) {
+      searchInput.value = '';
+      handleSearch('');
+      searchInput.blur();
+    }
+  }
+});
+
+// Sidebar Mobile Controls
+function openSidebar() {
+  document.getElementById('appSidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('active');
+}
+
+function closeSidebar() {
+  document.getElementById('appSidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('active');
+}
+
+// Handle URL hash on load
+window.addEventListener('DOMContentLoaded', () => {
+  const hash = window.location.hash.replace('#', '');
+  if (hash) {
+    const matchingBtn = document.querySelector(`.nav-item-btn[data-section="${hash}"]`);
+    if (matchingBtn) {
+      const label = matchingBtn.querySelector('span:not(.nav-dot-indicator):not(.nav-tag-badge)')?.textContent || hash;
+      navigate(hash, label);
+    }
+  }
+});
 </script>
 </body>
 </html>
