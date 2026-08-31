@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>TopNotchFreaks — Kernel Wiki // Nothing OS Edition</title>
-  <meta name="description" content="Technical documentation and CI/CD build wiki for TopNotchFreaks Linux 5.15 Android kernels. Designed with Nothing OS aesthetics.">
+  <title>TopNotchFreaks — Kernel Wiki // Ryoku Arch Edition</title>
+  <meta name="description" content="Technical documentation and CI/CD build wiki for TopNotchFreaks Linux 5.15 Android kernels. Designed with Ryoku Arch aesthetics.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="style.css">
@@ -15,13 +15,11 @@
   <!-- Mobile Backdrop Overlay -->
   <div class="mobile-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
-  <!-- Left Sidebar / Dock -->
+  <!-- Left Sidebar Dossier -->
   <aside class="sidebar" id="appSidebar">
     <div class="sb-header">
-      <div class="brand-badge">
-        <div class="glyph-icon-box">
-          <span class="glyph-matrix-symbol">TNF</span>
-        </div>
+      <div class="brand-badge" onclick="navigate('home', 'Overview')">
+        <div class="brand-kanji-box">力</div>
         <div class="brand-info">
           <div class="brand-title">TopNotch<span>Freaks</span></div>
           <div class="brand-sub">KERNEL.OS // V5.15</div>
@@ -32,46 +30,46 @@
           <span class="live-dot"></span>
           <span>ONLINE</span>
         </div>
-        <span class="text-dim">ARM64 · GKI/CLO</span>
+        <span class="text-faint font-mono">ARM64 · GKI/CLO</span>
       </div>
     </div>
 
-    <!-- Quick Search Widget -->
+    <!-- Quick Search Input -->
     <div class="sb-search-wrap">
       <div class="search-input-box">
-        <span class="text-dim">⌕</span>
-        <input type="text" id="wikiSearchInput" placeholder="Search wiki..." oninput="handleSearch(this.value)">
+        <span class="text-faint font-mono">$</span>
+        <input type="text" id="wikiSearchInput" placeholder="search dossier (press /)..." oninput="handleSearch(this.value)">
         <span class="search-kbd">ESC</span>
       </div>
     </div>
 
     <!-- Nav Items -->
     <nav class="sb-nav-scroll" id="navContainer">
-      <div class="nav-group-title">( 01 ) OVERVIEW</div>
+      <div class="nav-group-title">( 01 ) DOSSIER CORE</div>
       <button class="nav-item-btn active" data-section="home" onclick="navigate('home', 'Overview')">
         <div class="nav-btn-left">
-          <span class="nav-dot-indicator"></span>
-          <span>Home</span>
+          <span class="kanji-badge">核</span>
+          <span>Overview</span>
         </div>
         <span class="nav-tag-badge">// 01</span>
       </button>
       <button class="nav-item-btn" data-section="projects" onclick="navigate('projects', 'Build Projects')">
         <div class="nav-btn-left">
-          <span class="nav-dot-indicator"></span>
-          <span>Build Projects</span>
+          <span class="kanji-badge">陣</span>
+          <span>Workflow Comparison</span>
         </div>
         <span class="nav-tag-badge">// 02</span>
       </button>
       <button class="nav-item-btn" data-section="devices" onclick="navigate('devices', 'Supported Devices')">
         <div class="nav-btn-left">
-          <span class="nav-dot-indicator"></span>
+          <span class="kanji-badge">機</span>
           <span>Supported Devices</span>
         </div>
         <span class="nav-tag-badge">// 03</span>
       </button>
       <button class="nav-item-btn" data-section="features" onclick="navigate('features', 'Kernel Features')">
         <div class="nav-btn-left">
-          <span class="nav-dot-indicator"></span>
+          <span class="kanji-badge">技</span>
           <span>Kernel Features</span>
         </div>
         <span class="nav-tag-badge">// 04</span>
@@ -80,65 +78,65 @@
       <div class="nav-group-title">( 02 ) WORKFLOWS</div>
       <button class="nav-item-btn" data-section="yask" onclick="navigate('yask', 'YASK Weekly')">
         <div class="nav-btn-left">
-          <span class="nav-dot-indicator"></span>
+          <span class="kanji-badge">管</span>
           <span>YASK Weekly</span>
         </div>
         <span class="nav-tag-badge">// CRON</span>
       </button>
       <button class="nav-item-btn" data-section="mainbuild" onclick="navigate('mainbuild', 'Main Build')">
         <div class="nav-btn-left">
-          <span class="nav-dot-indicator"></span>
+          <span class="kanji-badge">快</span>
           <span>Main Build</span>
         </div>
         <span class="nav-tag-badge">// FAST</span>
       </button>
       <button class="nav-item-btn" data-section="advanced" onclick="navigate('advanced', 'Advanced Build')">
         <div class="nav-btn-left">
-          <span class="nav-dot-indicator"></span>
+          <span class="kanji-badge">創</span>
           <span>Advanced Build</span>
         </div>
         <span class="nav-tag-badge">// CUSTOM</span>
       </button>
 
-      <div class="nav-group-title">( 03 ) REFERENCE & ARCH</div>
+      <div class="nav-group-title">( 03 ) ARCHITECTURE & REF</div>
       <button class="nav-item-btn" data-section="matrix" onclick="navigate('matrix', 'Build Matrix')">
         <div class="nav-btn-left">
-          <span class="nav-dot-indicator"></span>
+          <span class="kanji-badge">譜</span>
           <span>Build Matrix</span>
         </div>
         <span class="nav-tag-badge">// DATA</span>
       </button>
       <button class="nav-item-btn" data-section="ksu" onclick="navigate('ksu', 'KSU & SUSFS')">
         <div class="nav-btn-left">
-          <span class="nav-dot-indicator"></span>
+          <span class="kanji-badge">根</span>
           <span>KSU & SUSFS</span>
         </div>
         <span class="nav-tag-badge">// ROOT</span>
       </button>
       <button class="nav-item-btn" data-section="toolchains" onclick="navigate('toolchains', 'Toolchains')">
         <div class="nav-btn-left">
-          <span class="nav-dot-indicator"></span>
+          <span class="kanji-badge">具</span>
           <span>Toolchains</span>
         </div>
         <span class="nav-tag-badge">// CLANG</span>
       </button>
       <button class="nav-item-btn" data-section="inputs" onclick="navigate('inputs', 'Workflow Inputs')">
         <div class="nav-btn-left">
-          <span class="nav-dot-indicator"></span>
+          <span class="kanji-badge">変</span>
           <span>Workflow Inputs</span>
         </div>
         <span class="nav-tag-badge">// PARAMS</span>
       </button>
       <button class="nav-item-btn" data-section="secrets" onclick="navigate('secrets', 'Secrets')">
         <div class="nav-btn-left">
-          <span class="nav-dot-indicator"></span>
-          <span>Secrets</span>
+          <span class="kanji-badge">鍵</span>
+          <span>Repository Secrets</span>
         </div>
         <span class="nav-tag-badge">// AUTH</span>
       </button>
       <button class="nav-item-btn" data-section="artifacts" onclick="navigate('artifacts', 'Artifacts & Output')">
         <div class="nav-btn-left">
-          <span class="nav-dot-indicator"></span>
+          <span class="kanji-badge">包</span>
           <span>Artifacts & Output</span>
         </div>
         <span class="nav-tag-badge">// ZIP</span>
@@ -146,11 +144,11 @@
     </nav>
 
     <div class="sb-footer">
-      <div class="sb-footer-text">
-        <span>NOTHING (R) AESTHETICS</span>
+      <div>
+        <span>RYOKU ARCH</span>
       </div>
-      <button class="glyph-mini-toggle" onclick="triggerGlyphFlash()" title="Flash Glyph LED">
-        <span style="color: var(--nt-red-vibrant);">●</span> GLYPH
+      <button class="tui-pulse-btn" onclick="triggerInstrumentPulse()" title="Trigger TUI Dial Pulse">
+        <span class="text-crimson">力</span> DIALS
       </button>
     </div>
   </aside>
@@ -174,23 +172,23 @@
 
       <div class="topbar-right">
         <div class="widget-clock" id="liveClock">00:00:00</div>
-        <span class="chip-pill red">linux-5.15</span>
+        <span class="chip-pill crimson">linux-5.15</span>
         <span class="chip-pill cyan">android 13–16</span>
         <span class="chip-pill lime">gki + clo</span>
       </div>
     </header>
 
-    <!-- Glyph Light Strip (Signature Nothing Element) -->
-    <div class="glyph-bar" id="glyphBar">
-      <div class="glyph-lines-container">
-        <div class="glyph-line g-short red-active" id="g1"></div>
-        <div class="glyph-line g-long active" id="g2"></div>
-        <div class="glyph-line g-med" id="g3"></div>
-        <div class="glyph-line g-dot" id="g4"></div>
-        <div class="glyph-line g-long" id="g5"></div>
+    <!-- Ryoku Instrument Dials Bar -->
+    <div class="instrument-strip" id="instrumentStrip">
+      <div class="instrument-dials">
+        <div class="inst-segment s-short crimson-active" id="s1"></div>
+        <div class="inst-segment s-long active" id="s2"></div>
+        <div class="inst-segment s-med" id="s3"></div>
+        <div class="inst-segment s-dot" id="s4"></div>
+        <div class="inst-segment s-long" id="s5"></div>
       </div>
-      <div class="font-mono text-dim">
-        SYS.STATE // ACTIVE
+      <div class="font-mono text-faint" style="font-size: 11px;">
+        力 · SYSTEM DOSSIER // PUBLIC RELEASE
       </div>
     </div>
 
@@ -199,69 +197,139 @@
 
       <!-- 1. HOME / OVERVIEW -->
       <section class="doc-section active" id="s-home">
-        <div class="hero-widget-box">
-          <div class="hero-background-glyph">TNF</div>
-          <div class="hero-badge-tag">
-            <span>●</span> CI/CD KERNEL ENGINE // V2.0
+        <div class="hero-dossier-grid">
+          <!-- Main Editorial Dossier Banner -->
+          <div class="hero-main-plate">
+            <div class="hero-dossier-header">
+              <span class="hero-dossier-tag">力 // SYSTEM DOSSIER · V5.15</span>
+              <span class="text-faint font-mono">GPL-3.0 · OPEN SOURCE</span>
+            </div>
+            <h1 class="hero-editorial-title">
+              High-performance <em>kernel engine</em> for <span>Snapdragon 680/685</span>.
+            </h1>
+            <p class="hero-dossier-lead">
+              A hand-crafted automated compilation matrix engineered for Qualcomm SM6225 (MSM 5.15) Linux trees. Featuring weekly Sunday cron builds, granular manual tuning, Wild KernelSU integration, and SUSFS stealth capabilities.
+            </p>
           </div>
-          <h1 class="hero-title">
-            TOPNOTCH<span class="red-text">FREAKS</span><br>KERNEL PROJECT
-          </h1>
-          <p class="hero-lead">
-            High-performance GitHub Actions automated pipeline engineered for Snapdragon 680/685 (MSM 5.15) Linux kernels. Featuring automated weekly releases, granular manual compilation control, Wild KernelSU integration, and SUSFS stealth capabilities.
-          </p>
 
-          <!-- Nothing OS 4-Widget Grid -->
-          <div class="hero-widget-grid">
-            <div class="nt-widget">
-              <div class="nt-widget-tag">
-                <span>Kernel Base</span>
-                <span class="text-red">●</span>
+          <!-- Fastfetch Style Readout Plate -->
+          <div class="fastfetch-plate">
+            <div class="fastfetch-grid">
+              <pre class="fastfetch-ascii">
+   /\_/\
+  ( o.o )
+   > ^ <
+  TNF.ARCH</pre>
+              <div class="fastfetch-rows">
+                <div class="ff-row"><span class="ff-key">OS / ENGINE</span><span class="ff-val">TopNotchFreaks CI/CD Kernel Hub</span></div>
+                <div class="ff-row"><span class="ff-key">KERNEL</span><span class="ff-val">Linux 5.15 LTS (Android Common MSM 5.15)</span></div>
+                <div class="ff-row"><span class="ff-key">SOC TARGET</span><span class="ff-val">Qualcomm Snapdragon 680 (SM6225) / 685 (SM6225-AD)</span></div>
+                <div class="ff-row"><span class="ff-key">ROOT HOOK</span><span class="ff-val text-crimson">Wild KernelSU + SUSFS v1.5+ Systemless Stealth</span></div>
+                <div class="ff-row"><span class="ff-key">TOOLCHAINS</span><span class="ff-val">AOSP Clang r547379 / Clang 20 (r584948b) / Greenforce</span></div>
+                <div class="ff-row"><span class="ff-key">STATUS</span><span class="ff-val" style="color: var(--ryoku-lime);">3 Active Pipelines Operational</span></div>
               </div>
-              <div class="nt-widget-val">5.15</div>
-              <div class="nt-widget-sub">LTS Android Common</div>
             </div>
-            <div class="nt-widget">
-              <div class="nt-widget-tag">
-                <span>Pipelines</span>
-                <span class="text-white">●</span>
+          </div>
+
+          <!-- 4 Stat Plates -->
+          <div class="ryoku-plate stat-plate-4">
+            <div class="stat-tag">BASE KERNEL</div>
+            <div class="stat-val">5.15</div>
+            <div class="stat-sub">LTS Android Common</div>
+          </div>
+
+          <div class="ryoku-plate stat-plate-4">
+            <div class="stat-tag">PIPELINES</div>
+            <div class="stat-val">03</div>
+            <div class="stat-sub">YASK · Main · Advanced</div>
+          </div>
+
+          <div class="ryoku-plate stat-plate-4">
+            <div class="stat-tag">SOURCE FLAVORS</div>
+            <div class="stat-val" style="font-size: 24px;">GKI+CLO</div>
+            <div class="stat-sub">Generic & Qualcomm CAF</div>
+          </div>
+
+          <div class="ryoku-plate stat-plate-4">
+            <div class="stat-tag">ROOT EVASION</div>
+            <div class="stat-val" style="font-size: 22px;">SUSFS</div>
+            <div class="stat-sub">Play Integrity Stealth</div>
+          </div>
+
+          <!-- Interactive CLI Dispatcher Plate -->
+          <div class="ryoku-plate dispatcher-plate">
+            <div class="disp-header">
+              <div class="disp-title">
+                <span class="text-crimson">力</span> GitHub Actions Workflow Dispatcher
               </div>
-              <div class="nt-widget-val">03</div>
-              <div class="nt-widget-sub">YASK · Main · Advanced</div>
+              <span class="chip-pill cyan">gh cli generator</span>
             </div>
-            <div class="nt-widget">
-              <div class="nt-widget-tag">
-                <span>Sources</span>
-                <span class="text-muted">●</span>
+            <div class="disp-options-grid">
+              <div class="disp-field">
+                <label class="disp-label">Workflow</label>
+                <select class="disp-select" id="genWorkflow" onchange="updateGeneratedCmd()">
+                  <option value="main.yml">Main Build (Fast)</option>
+                  <option value="YASK.yml">YASK (Automated)</option>
+                  <option value="advanced_build.yml">Advanced Build</option>
+                </select>
               </div>
-              <div class="nt-widget-val">GKI+CLO</div>
-              <div class="nt-widget-sub">Generic & Qualcomm CAF</div>
+              <div class="disp-field">
+                <label class="disp-label">Target Defconfig</label>
+                <select class="disp-select" id="genDevice" onchange="updateGeneratedCmd()">
+                  <option value="vendor/bengal-perf_defconfig">Redmi Note 12/13 4G (bengal-perf)</option>
+                  <option value="gki_defconfig">Redmi Pad SE (gki_defconfig)</option>
+                </select>
+              </div>
+              <div class="disp-field">
+                <label class="disp-label">Branch</label>
+                <select class="disp-select" id="genBranch" onchange="updateGeneratedCmd()">
+                  <option value="14.0">14.0 (Stable)</option>
+                  <option value="15.0">15.0 (Android 15)</option>
+                  <option value="16.0">16.0 (Android 16)</option>
+                </select>
+              </div>
+              <div class="disp-field">
+                <label class="disp-label">KernelSU</label>
+                <select class="disp-select" id="genKSU" onchange="updateGeneratedCmd()">
+                  <option value="ksu">ksu (Wild-KSU)</option>
+                  <option value="noksu">noksu (Vanilla)</option>
+                  <option value="both">both (Parallel)</option>
+                </select>
+              </div>
+              <div class="disp-field">
+                <label class="disp-label">LTO Mode</label>
+                <select class="disp-select" id="genLTO" onchange="updateGeneratedCmd()">
+                  <option value="thin">Thin LTO (Rapid)</option>
+                  <option value="full">Full LTO (Peak)</option>
+                </select>
+              </div>
             </div>
-            <div class="nt-widget">
-              <div class="nt-widget-tag">
-                <span>Root Hook</span>
-                <span class="text-red">●</span>
-              </div>
-              <div class="nt-widget-val">Wild-KSU</div>
-              <div class="nt-widget-sub">+ SUSFS Systemless Stealth</div>
+
+            <div class="disp-code-output">
+              <div class="disp-code-text" id="generatedCmdText">gh workflow run main.yml -f kernelDevice=vendor/bengal-perf_defconfig -f kernelBranch=14.0 -f buildKSU=ksu</div>
+              <button class="copy-btn" onclick="copyGeneratedCmd(this)">
+                <span>⧉</span> Copy Command
+              </button>
             </div>
           </div>
         </div>
 
         <h2 class="sub-title">The Three Build Workflows</h2>
-        <div class="nt-card-grid tri-col">
+        <div class="ryoku-plate-grid tri-col">
           <!-- YASK Card -->
-          <div class="nt-card yask-card" onclick="navigate('yask', 'YASK Weekly')">
-            <div class="nt-card-header">
-              <span class="nt-card-chip">🤖 Automated · Weekly</span>
-              <span class="arrow-icon-link">↗</span>
+          <div class="ryoku-plate workflow-plate" onclick="navigate('yask', 'YASK Weekly')">
+            <div>
+              <div class="wf-header">
+                <span class="wf-chip">01 // AUTOMATED CRON</span>
+                <span class="arrow-icon-link">↗</span>
+              </div>
+              <div class="wf-title">YASK Pipeline</div>
+              <p class="wf-desc">
+                Automated weekly release triggered every Sunday. Builds 4 parallel variants (GKI/CLO × KSU/noksu) with Clang Full LTO, Wild-KSU canary, and Baseband Guard. Deploys GitHub Release & Telegram notification.
+              </p>
             </div>
-            <div class="nt-card-title">YASK Pipeline</div>
-            <p class="nt-card-desc">
-              Automated weekly release triggered every Sunday. Builds 4 parallel variants (GKI/CLO × KSU/noksu) with Clang Full LTO, Wild-KSU canary, and Baseband Guard. Deploys GitHub Release & Telegram notification.
-            </p>
-            <div class="nt-card-footer">
-              <div class="nt-pill-group">
+            <div class="wf-footer">
+              <div class="pill-group">
                 <span class="chip-pill lime">4 variants</span>
                 <span class="chip-pill">LTO Full</span>
                 <span class="chip-pill">Cron</span>
@@ -270,17 +338,19 @@
           </div>
 
           <!-- Main Build Card -->
-          <div class="nt-card main-card" onclick="navigate('mainbuild', 'Main Build')">
-            <div class="nt-card-header">
-              <span class="nt-card-chip">🚀 Fast Manual</span>
-              <span class="arrow-icon-link">↗</span>
+          <div class="ryoku-plate workflow-plate" onclick="navigate('mainbuild', 'Main Build')">
+            <div>
+              <div class="wf-header">
+                <span class="wf-chip">02 // RAPID MANUAL</span>
+                <span class="arrow-icon-link">↗</span>
+              </div>
+              <div class="wf-title">Main Build</div>
+              <p class="wf-desc">
+                Lightweight manual dispatch workflow for quick prototyping from any repository branch. Supports noksu, ksu, or both with Thin LTO and stable Wild-KSU. Direct Telegram document delivery.
+              </p>
             </div>
-            <div class="nt-card-title">Main Build</div>
-            <p class="nt-card-desc">
-              Lightweight manual dispatch workflow for quick prototyping from any repository branch. Supports noksu, ksu, or both with Thin LTO and stable Wild-KSU. Direct Telegram document delivery.
-            </p>
-            <div class="nt-card-footer">
-              <div class="nt-pill-group">
+            <div class="wf-footer">
+              <div class="pill-group">
                 <span class="chip-pill cyan">Thin LTO</span>
                 <span class="chip-pill">Stable KSU</span>
                 <span class="chip-pill">Fast</span>
@@ -289,18 +359,20 @@
           </div>
 
           <!-- Advanced Build Card -->
-          <div class="nt-card adv-card" onclick="navigate('advanced', 'Advanced Build')">
-            <div class="nt-card-header">
-              <span class="nt-card-chip">⚙️ Full Control</span>
-              <span class="arrow-icon-link">↗</span>
+          <div class="ryoku-plate workflow-plate" onclick="navigate('advanced', 'Advanced Build')">
+            <div>
+              <div class="wf-header">
+                <span class="wf-chip">03 // DEEP TUNING</span>
+                <span class="arrow-icon-link">↗</span>
+              </div>
+              <div class="wf-title">Advanced Build</div>
+              <p class="wf-desc">
+                Deep tuning compilation engine. Configure compiler optimization (-O2, -O3, -Os), timer frequency (100–1000 Hz), LTO thin/full, and dual toolchain switching (AOSP Clang vs Greenforce).
+              </p>
             </div>
-            <div class="nt-card-title">Advanced Build</div>
-            <p class="nt-card-desc">
-              Deep tuning compilation engine. Configure compiler optimization (-O2, -O3, -Os), timer frequency (100–1000 Hz), LTO thin/full, and dual toolchain switching (AOSP Clang vs Greenforce).
-            </p>
-            <div class="nt-card-footer">
-              <div class="nt-pill-group">
-                <span class="chip-pill red">O2/O3/Os</span>
+            <div class="wf-footer">
+              <div class="pill-group">
+                <span class="chip-pill crimson">O2/O3/Os</span>
                 <span class="chip-pill">100–1000Hz</span>
                 <span class="chip-pill">2 Toolchains</span>
               </div>
@@ -309,18 +381,18 @@
         </div>
 
         <h2 class="sub-title">Shared Infrastructure Core</h2>
-        <div class="nt-card-grid">
-          <div class="nt-card">
-            <div class="nt-card-title" style="font-size: 18px;">📦 AnyKernel3 Packaging</div>
-            <p class="nt-card-desc">Standardized flashable ZIP generation for recovery flashing across all workflow output artifacts with auto-detection.</p>
+        <div class="ryoku-plate-grid">
+          <div class="ryoku-plate">
+            <div class="wf-title" style="font-size: 16px;">📦 AnyKernel3 Packaging</div>
+            <p class="wf-desc">Standardized flashable ZIP generation for recovery flashing across all workflow output artifacts with auto-detection.</p>
           </div>
-          <div class="nt-card">
-            <div class="nt-card-title" style="font-size: 18px;">💉 Unified Patch System</div>
-            <p class="nt-card-desc">Automated sign-builds, no-dirty flag injection, GKI boot fixup, and defconfig sanitization before compilation begins.</p>
+          <div class="ryoku-plate">
+            <div class="wf-title" style="font-size: 16px;">💉 Unified Patch System</div>
+            <p class="wf-desc">Automated sign-builds, no-dirty flag injection, GKI boot fixup, and defconfig sanitization before compilation begins.</p>
           </div>
-          <div class="nt-card">
-            <div class="nt-card-title" style="font-size: 18px;">🔄 Dynamic Swap Expansion</div>
-            <p class="nt-card-desc">10–20 GB runner swap space allocation to completely prevent Out-Of-Memory (OOM) compiler crashes during heavy LTO linking.</p>
+          <div class="ryoku-plate">
+            <div class="wf-title" style="font-size: 16px;">🔄 Dynamic Swap Expansion</div>
+            <p class="wf-desc">10–20 GB runner swap space allocation to completely prevent Out-Of-Memory (OOM) compiler crashes during heavy LTO linking.</p>
           </div>
         </div>
       </section>
@@ -328,7 +400,7 @@
       <!-- 2. BUILD PROJECTS COMPARISON -->
       <section class="doc-section" id="s-projects">
         <div class="section-headline">
-          <div class="section-label">// COMPARISON MATRIX</div>
+          <div class="section-label">陣 // COMPARISON MATRIX</div>
           <h1 class="section-title">Build Workflows Compared</h1>
           <p class="section-desc">Side-by-side technical specification of the three CI/CD workflow pipelines.</p>
         </div>
@@ -374,7 +446,7 @@
           <div class="cmp-card">
             <div class="cmp-head adv">
               <div class="cmp-head-title">advanced_build.yml</div>
-              <span class="chip-pill red">Full Control</span>
+              <span class="chip-pill crimson">Full Control</span>
             </div>
             <div class="cmp-body">
               <div class="cmp-row"><span class="cmp-key">Trigger</span><span class="cmp-val">Manual Dispatch</span></div>
@@ -389,7 +461,7 @@
           </div>
         </div>
 
-        <div class="nt-callout c-info">
+        <div class="ryoku-callout c-info">
           <div class="callout-icon">ℹ</div>
           <div class="callout-content">
             <strong>Recommendation Guide:</strong> For everyday daily-driver stability, flash the latest automated <strong>YASK</strong> release. For testing custom branches or new commits, run <strong>Main Build</strong>. For maximum kernel tuning and overclock/tick-rate experimentation, use <strong>Advanced Build</strong>.
@@ -400,12 +472,12 @@
       <!-- 3. SUPPORTED DEVICES -->
       <section class="doc-section" id="s-devices">
         <div class="section-headline">
-          <div class="section-label">// HARDWARE TARGETS</div>
+          <div class="section-label">機 // HARDWARE TARGETS</div>
           <h1 class="section-title">Supported Devices</h1>
           <p class="section-desc">Qualcomm Snapdragon 680 / 685 (MSM 5.15) hardware matrix and recommended kernel branches.</p>
         </div>
 
-        <div class="nt-callout c-info">
+        <div class="ryoku-callout c-info">
           <div class="callout-icon">ℹ</div>
           <div class="callout-content">
             <strong>SoC Architecture:</strong> Qualcomm Snapdragon 680 (SM6225) & Snapdragon 685 (SM6225-AD) running Linux LTS kernel version 5.15 on Android 13, 14, 15, and 16.
@@ -413,7 +485,7 @@
         </div>
 
         <div class="table-wrapper">
-          <table class="nt-table">
+          <table class="ryoku-table">
             <thead>
               <tr>
                 <th>Device Model</th>
@@ -428,14 +500,14 @@
                 <td class="strong-text">Redmi Note 12 4G</td>
                 <td><span class="chip-pill cyan">topaz / tapas</span></td>
                 <td>Snapdragon 685</td>
-                <td><span class="chip-pill red">CLO (CAF)</span></td>
+                <td><span class="chip-pill crimson">CLO (CAF)</span></td>
                 <td>vendor/bengal-perf_defconfig</td>
               </tr>
               <tr>
                 <td class="strong-text">Redmi Note 13 4G</td>
                 <td><span class="chip-pill cyan">sapphire / sapphiren</span></td>
                 <td>Snapdragon 685</td>
-                <td><span class="chip-pill red">CLO (CAF)</span></td>
+                <td><span class="chip-pill crimson">CLO (CAF)</span></td>
                 <td>vendor/bengal-perf_defconfig</td>
               </tr>
               <tr>
@@ -450,14 +522,14 @@
         </div>
 
         <h2 class="sub-title">GKI vs CLO Image Guide</h2>
-        <div class="nt-card-grid">
-          <div class="nt-card">
-            <div class="nt-card-title">GKI (Generic Kernel Image)</div>
-            <p class="nt-card-desc">Standard Google-compliant kernel architecture. Ideal for generic custom ROMs and devices utilizing standardized GKI boot partitions (e.g., Redmi Pad SE).</p>
+        <div class="ryoku-plate-grid">
+          <div class="ryoku-plate">
+            <div class="wf-title" style="font-size: 16px;">GKI (Generic Kernel Image)</div>
+            <p class="wf-desc">Standard Google-compliant kernel architecture. Ideal for generic custom ROMs and devices utilizing standardized GKI boot partitions (e.g., Redmi Pad SE).</p>
           </div>
-          <div class="nt-card">
-            <div class="nt-card-title">CLO (Qualcomm CodeLinaro)</div>
-            <p class="nt-card-desc">Qualcomm proprietary optimized tree tailored with chipset-specific driver enhancements for Snapdragon 685 display panels and camera sensors.</p>
+          <div class="ryoku-plate">
+            <div class="wf-title" style="font-size: 16px;">CLO (Qualcomm CodeLinaro)</div>
+            <p class="wf-desc">Qualcomm proprietary optimized tree tailored with chipset-specific driver enhancements for Snapdragon 685 display panels and camera sensors.</p>
           </div>
         </div>
       </section>
@@ -465,61 +537,61 @@
       <!-- 4. KERNEL FEATURES -->
       <section class="doc-section" id="s-features">
         <div class="section-headline">
-          <div class="section-label">// OPTIMIZATIONS & MODULES</div>
+          <div class="section-label">技 // OPTIMIZATIONS & MODULES</div>
           <h1 class="section-title">Kernel Engine Features</h1>
           <p class="section-desc">Key architectural improvements, security modules, and performance patches integrated into the kernel.</p>
         </div>
 
-        <div class="nt-card-grid">
-          <div class="nt-card">
-            <div class="nt-card-title">⚡ Clang LTO (Link-Time Optimization)</div>
-            <p class="nt-card-desc">Full cross-translation unit optimization. Eliminates dead code, inlines hot functions across object boundaries, and maximizes execution throughput.</p>
-            <div class="nt-pill-group">
+        <div class="ryoku-plate-grid">
+          <div class="ryoku-plate">
+            <div class="wf-title" style="font-size: 16px;">⚡ Clang LTO (Link-Time Optimization)</div>
+            <p class="wf-desc">Full cross-translation unit optimization. Eliminates dead code, inlines hot functions across object boundaries, and maximizes execution throughput.</p>
+            <div class="pill-group">
               <span class="chip-pill">Thin LTO</span>
-              <span class="chip-pill red">Full LTO</span>
+              <span class="chip-pill crimson">Full LTO</span>
             </div>
           </div>
 
-          <div class="nt-card">
-            <div class="nt-card-title">🌐 TCP BBR + Westwood</div>
-            <p class="nt-card-desc">Modern congestion control algorithms. TCP Westwood is enabled by default to dramatically reduce packet loss and bufferbloat over volatile mobile cellular data connections.</p>
-            <div class="nt-pill-group">
+          <div class="ryoku-plate">
+            <div class="wf-title" style="font-size: 16px;">🌐 TCP BBR + Westwood</div>
+            <p class="wf-desc">Modern congestion control algorithms. TCP Westwood is enabled by default to dramatically reduce packet loss and bufferbloat over volatile mobile cellular data connections.</p>
+            <div class="pill-group">
               <span class="chip-pill cyan">BBR v1</span>
               <span class="chip-pill lime">Westwood Default</span>
             </div>
           </div>
 
-          <div class="nt-card">
-            <div class="nt-card-title">🛡️ Baseband Guard (BBG)</div>
-            <p class="nt-card-desc">Custom Linux Security Module (LSM) protecting the baseband and modem interfaces against unauthorized tampering and privilege escalation attacks.</p>
-            <div class="nt-pill-group">
-              <span class="chip-pill red">LSM Hook</span>
+          <div class="ryoku-plate">
+            <div class="wf-title" style="font-size: 16px;">🛡️ Baseband Guard (BBG)</div>
+            <p class="wf-desc">Custom Linux Security Module (LSM) protecting the baseband and modem interfaces against unauthorized tampering and privilege escalation attacks.</p>
+            <div class="pill-group">
+              <span class="chip-pill crimson">LSM Hook</span>
               <span class="chip-pill">Modem Isolation</span>
             </div>
           </div>
 
-          <div class="nt-card">
-            <div class="nt-card-title">🔑 Wild KernelSU + SUSFS</div>
-            <p class="nt-card-desc">Next-generation kernel-based root hook. Paired with SUSFS kernel patches for complete stealth (spoofing uname, magic mount hiding, kallsyms stripping).</p>
-            <div class="nt-pill-group">
+          <div class="ryoku-plate">
+            <div class="wf-title" style="font-size: 16px;">🔑 Wild KernelSU + SUSFS</div>
+            <p class="wf-desc">Next-generation kernel-based root hook. Paired with SUSFS kernel patches for complete stealth (spoofing uname, magic mount hiding, kallsyms stripping).</p>
+            <div class="pill-group">
               <span class="chip-pill lime">SUSFS v1.5+</span>
               <span class="chip-pill">Play Integrity Pass</span>
             </div>
           </div>
 
-          <div class="nt-card">
-            <div class="nt-card-title">🔄 Dynamic Swap & ZRAM</div>
-            <p class="nt-card-desc">Runner swap allocation of up to 20 GB ensuring high memory-pressure builds succeed without clang-ld fatal terminations.</p>
-            <div class="nt-pill-group">
+          <div class="ryoku-plate">
+            <div class="wf-title" style="font-size: 16px;">🔄 Dynamic Swap & ZRAM</div>
+            <p class="wf-desc">Runner swap allocation of up to 20 GB ensuring high memory-pressure builds succeed without clang-ld fatal terminations.</p>
+            <div class="pill-group">
               <span class="chip-pill">20GB Swap</span>
               <span class="chip-pill">ZRAM Support</span>
             </div>
           </div>
 
-          <div class="nt-card">
-            <div class="nt-card-title">💉 Automated Tree Fixups</div>
-            <p class="nt-card-desc">Automated git dirty flag suppression, patch signature validation, and defconfig auto-merging integrated directly into the pre-build pipeline.</p>
-            <div class="nt-pill-group">
+          <div class="ryoku-plate">
+            <div class="wf-title" style="font-size: 16px;">💉 Automated Tree Fixups</div>
+            <p class="wf-desc">Automated git dirty flag suppression, patch signature validation, and defconfig auto-merging integrated directly into the pre-build pipeline.</p>
+            <div class="pill-group">
               <span class="chip-pill">Auto Patch</span>
               <span class="chip-pill">No-Dirty</span>
             </div>
@@ -530,12 +602,12 @@
       <!-- 5. YASK DEEP DIVE -->
       <section class="doc-section" id="s-yask">
         <div class="section-headline">
-          <div class="section-label">// AUTOMATED RELEASE PIPELINE</div>
+          <div class="section-label">管 // AUTOMATED RELEASE PIPELINE</div>
           <h1 class="section-title">YASK — Yet Another Stable Kernel</h1>
           <p class="section-desc">Automated weekly production release engine generating 4 synchronized builds every Sunday.</p>
         </div>
 
-        <div class="nt-callout c-success">
+        <div class="ryoku-callout c-success">
           <div class="callout-icon">✓</div>
           <div class="callout-content">
             <strong>Recommended for End Users:</strong> YASK produces tested, production-grade flashable zip bundles with Full LTO and latest upstream security patches.
@@ -570,18 +642,18 @@
       <!-- 6. MAIN BUILD -->
       <section class="doc-section" id="s-mainbuild">
         <div class="section-headline">
-          <div class="section-label">// RAPID MANUAL DISPATCH</div>
+          <div class="section-label">快 // RAPID MANUAL DISPATCH</div>
           <h1 class="section-title">Main Build Workflow</h1>
           <p class="section-desc">Quick turnaround compilation workflow for rapid kernel testing and debugging.</p>
         </div>
 
-        <p class="text-white-dim" style="margin-bottom: 24px;">
+        <p class="text-muted" style="margin-bottom: 24px;">
           The Main Build (<code>main.yml</code>) is designed for developer experimentation. It uses <strong>Thin LTO</strong> for rapid compilation times while retaining performance optimizations, and packages stable Wild-KSU.
         </p>
 
         <h2 class="sub-title">Workflow Input Parameters</h2>
         <div class="table-wrapper">
-          <table class="nt-table">
+          <table class="ryoku-table">
             <thead>
               <tr>
                 <th>Input Variable</th>
@@ -623,12 +695,12 @@
       <!-- 7. ADVANCED BUILD -->
       <section class="doc-section" id="s-advanced">
         <div class="section-headline">
-          <div class="section-label">// MAXIMUM TUNING CONTROL</div>
+          <div class="section-label">創 // MAXIMUM TUNING CONTROL</div>
           <h1 class="section-title">Advanced Build Engine</h1>
           <p class="section-desc">Fine-grained compilation parameter matrix for kernel engineers and tuners.</p>
         </div>
 
-        <div class="nt-callout c-warn">
+        <div class="ryoku-callout c-warn">
           <div class="callout-icon">⚠</div>
           <div class="callout-content">
             <strong>Case Sensitivity Notice:</strong> The parameter <code>LTOOptimizations</code> requires exact casing in workflow dispatch to properly propagate flags to the build environment.
@@ -636,18 +708,18 @@
         </div>
 
         <h2 class="sub-title">Advanced Parameter Controls</h2>
-        <div class="nt-card-grid">
-          <div class="nt-card">
-            <div class="nt-card-title">Compiler Optimization Level</div>
-            <p class="nt-card-desc">Select between <code>-O2</code> (standard balance), <code>-O3</code> (aggressive vectorization and loop unrolling for peak performance), or <code>-Os</code> (size optimized).</p>
+        <div class="ryoku-plate-grid">
+          <div class="ryoku-plate">
+            <div class="wf-title" style="font-size: 16px;">Compiler Optimization Level</div>
+            <p class="wf-desc">Select between <code>-O2</code> (standard balance), <code>-O3</code> (aggressive vectorization and loop unrolling for peak performance), or <code>-Os</code> (size optimized).</p>
           </div>
-          <div class="nt-card">
-            <div class="nt-card-title">Timer Tick Frequency (HZ)</div>
-            <p class="nt-card-desc">Configure kernel timer interrupt frequency between <code>100Hz</code> (battery saver), <code>250Hz</code>, <code>300Hz</code> (standard), and <code>1000Hz</code> (ultra-low latency gaming).</p>
+          <div class="ryoku-plate">
+            <div class="wf-title" style="font-size: 16px;">Timer Tick Frequency (HZ)</div>
+            <p class="wf-desc">Configure kernel timer interrupt frequency between <code>100Hz</code> (battery saver), <code>250Hz</code>, <code>300Hz</code> (standard), and <code>1000Hz</code> (ultra-low latency gaming).</p>
           </div>
-          <div class="nt-card">
-            <div class="nt-card-title">Toolchain Selector</div>
-            <p class="nt-card-desc">Switch between standard Google AOSP Clang (<code>clang-r584948b</code>) and custom optimized Greenforce Clang with latest LLVM backend patches.</p>
+          <div class="ryoku-plate">
+            <div class="wf-title" style="font-size: 16px;">Toolchain Selector</div>
+            <p class="wf-desc">Switch between standard Google AOSP Clang (<code>clang-r584948b</code>) and custom optimized Greenforce Clang with latest LLVM backend patches.</p>
           </div>
         </div>
       </section>
@@ -655,13 +727,13 @@
       <!-- 8. BUILD MATRIX -->
       <section class="doc-section" id="s-matrix">
         <div class="section-headline">
-          <div class="section-label">// SPECIFICATION REFERENCE</div>
+          <div class="section-label">譜 // SPECIFICATION REFERENCE</div>
           <h1 class="section-title">Comprehensive Build Matrix</h1>
           <p class="section-desc">Unified matrix overview of all pipelines and target configurations.</p>
         </div>
 
         <div class="table-wrapper">
-          <table class="nt-table">
+          <table class="ryoku-table">
             <thead>
               <tr>
                 <th>Workflow</th>
@@ -675,7 +747,7 @@
               <tr>
                 <td class="strong-text">YASK (Automated)</td>
                 <td>GKI-KSU, CLO-KSU, GKI-noksu, CLO-noksu</td>
-                <td><span class="chip-pill red">Full LTO</span></td>
+                <td><span class="chip-pill crimson">Full LTO</span></td>
                 <td>AOSP Clang r547379</td>
                 <td>GitHub Release + Telegram</td>
               </tr>
@@ -701,12 +773,12 @@
       <!-- 9. KSU & SUSFS -->
       <section class="doc-section" id="s-ksu">
         <div class="section-headline">
-          <div class="section-label">// KERNEL ROOT & STEALTH</div>
+          <div class="section-label">根 // KERNEL ROOT & STEALTH</div>
           <h1 class="section-title">KernelSU & SUSFS Integration</h1>
           <p class="section-desc">Kernel-level privilege management combined with SUSFS evasion mechanisms.</p>
         </div>
 
-        <div class="nt-callout c-info">
+        <div class="ryoku-callout c-info">
           <div class="callout-icon">ℹ</div>
           <div class="callout-content">
             <strong>Stealth Architecture:</strong> SUSFS patches intercept sys_call tables and VFS layers to hide mounted overlayfs directories, strip KernelSU symbols from <code>/proc/kallsyms</code>, and bypass Play Integrity / root detectors seamlessly.
@@ -714,14 +786,10 @@
         </div>
 
         <h2 class="sub-title">SUSFS Kernel Configuration Flags</h2>
-        <div class="nt-code-box">
+        <div class="ryoku-code-box">
           <div class="code-top-header">
             <div class="code-title-spec">
-              <div class="code-dots-indicator">
-                <span class="code-dot red"></span>
-                <span class="code-dot"></span>
-                <span class="code-dot"></span>
-              </div>
+              <span class="text-crimson">根</span>
               <span>kconfig // susfs_core_flags.conf</span>
             </div>
             <button class="copy-btn" onclick="copyCode(this)">
@@ -745,13 +813,13 @@
       <!-- 10. TOOLCHAINS -->
       <section class="doc-section" id="s-toolchains">
         <div class="section-headline">
-          <div class="section-label">// COMPILER TOOLCHAINS</div>
+          <div class="section-label">具 // COMPILER TOOLCHAINS</div>
           <h1 class="section-title">Clang Compiler Toolchains</h1>
           <p class="section-desc">LLVM/Clang compiler toolchains utilized across the build infrastructure.</p>
         </div>
 
         <div class="table-wrapper">
-          <table class="nt-table">
+          <table class="ryoku-table">
             <thead>
               <tr>
                 <th>Toolchain Identifier</th>
@@ -770,13 +838,13 @@
               <tr>
                 <td class="strong-text">clang-r584948b</td>
                 <td>AOSP Clang 20.0</td>
-                <td><span class="chip-pill red">Advanced</span></td>
+                <td><span class="chip-pill crimson">Advanced</span></td>
                 <td>Bleeding-edge AOSP toolchain with enhanced loop vectorizer passes.</td>
               </tr>
               <tr>
                 <td class="strong-text">greenforce_clang</td>
                 <td>Custom LLVM 19+</td>
-                <td><span class="chip-pill red">Advanced</span></td>
+                <td><span class="chip-pill crimson">Advanced</span></td>
                 <td>Optimized with Polly loop optimizer and Cortex-A53 / Kryo 265 tuning.</td>
               </tr>
             </tbody>
@@ -787,13 +855,13 @@
       <!-- 11. WORKFLOW INPUTS -->
       <section class="doc-section" id="s-inputs">
         <div class="section-headline">
-          <div class="section-label">// DISPATCH SPECIFICATIONS</div>
+          <div class="section-label">変 // DISPATCH SPECIFICATIONS</div>
           <h1 class="section-title">GitHub Actions Workflow Inputs</h1>
           <p class="section-desc">Reference table of all input variables accepted by workflow dispatch triggers.</p>
         </div>
 
         <div class="table-wrapper">
-          <table class="nt-table">
+          <table class="ryoku-table">
             <thead>
               <tr>
                 <th>Variable Name</th>
@@ -859,7 +927,7 @@
       <!-- 12. SECRETS -->
       <section class="doc-section" id="s-secrets">
         <div class="section-headline">
-          <div class="section-label">// AUTHENTICATION & TOKENS</div>
+          <div class="section-label">鍵 // AUTHENTICATION & TOKENS</div>
           <h1 class="section-title">Repository Secrets</h1>
           <p class="section-desc">Required GitHub Actions repository environment secrets for automated deployment.</p>
         </div>
@@ -894,13 +962,13 @@
       <!-- 13. ARTIFACTS & OUTPUT -->
       <section class="doc-section" id="s-artifacts">
         <div class="section-headline">
-          <div class="section-label">// PACKAGING & DEPLOYMENT</div>
+          <div class="section-label">包 // PACKAGING & DEPLOYMENT</div>
           <h1 class="section-title">Artifacts & Distribution</h1>
           <p class="section-desc">Flashable AnyKernel3 ZIP naming standards and delivery pipeline channels.</p>
         </div>
 
         <div class="table-wrapper">
-          <table class="nt-table">
+          <table class="ryoku-table">
             <thead>
               <tr>
                 <th>Workflow Pipeline</th>
@@ -934,8 +1002,8 @@
 </div>
 
 <!-- Floating Toast Notification -->
-<div class="nt-toast" id="appToast">
-  <span class="nt-toast-dot"></span>
+<div class="ryoku-toast" id="appToast">
+  <span class="ryoku-toast-dot"></span>
   <span id="toastMessage">COPIED TO CLIPBOARD</span>
 </div>
 
@@ -951,6 +1019,37 @@ function updateClock() {
 }
 setInterval(updateClock, 1000);
 updateClock();
+
+// Interactive Workflow Dispatch Generator
+function updateGeneratedCmd() {
+  const wf = document.getElementById('genWorkflow')?.value || 'main.yml';
+  const dev = document.getElementById('genDevice')?.value || 'vendor/bengal-perf_defconfig';
+  const br = document.getElementById('genBranch')?.value || '14.0';
+  const ksu = document.getElementById('genKSU')?.value || 'ksu';
+  const lto = document.getElementById('genLTO')?.value || 'thin';
+
+  let cmd = `gh workflow run ${wf} -f kernelDevice=${dev} -f kernelBranch=${br} -f buildKSU=${ksu}`;
+  if (wf === 'advanced_build.yml') {
+    cmd += ` -f LTOOptimizations=${lto}`;
+  }
+  const cmdEl = document.getElementById('generatedCmdText');
+  if (cmdEl) cmdEl.textContent = cmd;
+}
+
+function copyGeneratedCmd(btn) {
+  const cmdText = document.getElementById('generatedCmdText')?.textContent || '';
+  if (!cmdText) return;
+  navigator.clipboard.writeText(cmdText).then(() => {
+    showToast("CLI DISPATCH COMMAND COPIED");
+    const originalText = btn.innerHTML;
+    btn.innerHTML = `<span>✓</span> COPIED`;
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+    }, 2000);
+  }).catch(() => {
+    showToast("COPY FAILED");
+  });
+}
 
 // Navigation Controller
 function navigate(sectionId, label) {
@@ -982,8 +1081,8 @@ function navigate(sectionId, label) {
     location.hash = '#' + sectionId;
   }
 
-  // Pulse glyph light bars
-  animateGlyphs();
+  // Pulse dials
+  pulseDials();
 
   // Scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -992,49 +1091,48 @@ function navigate(sectionId, label) {
   closeSidebar();
 }
 
-// Glyph Light Bar Interaction
-function animateGlyphs() {
-  const lines = document.querySelectorAll('.glyph-line');
-  lines.forEach((line, idx) => {
+// Ryoku Dial Animation
+function pulseDials() {
+  const segments = document.querySelectorAll('.inst-segment');
+  segments.forEach((seg, idx) => {
     setTimeout(() => {
-      line.classList.add('active');
+      seg.classList.add('active');
       setTimeout(() => {
-        if (!line.classList.contains('red-active') && idx !== 1) {
-          line.classList.remove('active');
+        if (!seg.classList.contains('crimson-active') && idx !== 1) {
+          seg.classList.remove('active');
         }
-      }, 400);
-    }, idx * 60);
+      }, 350);
+    }, idx * 50);
   });
 }
 
-function triggerGlyphFlash() {
-  const glyphBar = document.getElementById('glyphBar');
-  const lines = document.querySelectorAll('.glyph-line');
-  showToast("GLYPH MATRIX FLASH");
-  lines.forEach(l => l.classList.add('active', 'red-active'));
+function triggerInstrumentPulse() {
+  const segments = document.querySelectorAll('.inst-segment');
+  showToast("力 · DIALS PULSED");
+  segments.forEach(s => s.classList.add('active', 'crimson-active'));
   setTimeout(() => {
-    lines.forEach((l, idx) => {
-      if (idx !== 0) l.classList.remove('red-active');
-      if (idx !== 1) l.classList.remove('active');
+    segments.forEach((s, idx) => {
+      if (idx !== 0) s.classList.remove('crimson-active');
+      if (idx !== 1) s.classList.remove('active');
     });
-  }, 800);
+  }, 700);
 }
 
 // Copy Code Helper
 function copyCode(btn) {
-  const codeBox = btn.closest('.nt-code-box');
+  const codeBox = btn.closest('.ryoku-code-box');
   if (!codeBox) return;
   const code = codeBox.querySelector('pre code') || codeBox.querySelector('pre');
   if (!code) return;
 
   navigator.clipboard.writeText(code.innerText.trim()).then(() => {
-    showToast("COPIED TO CLIPBOARD");
+    showToast("KCONFIG COPIED TO CLIPBOARD");
     const originalText = btn.innerHTML;
     btn.innerHTML = `<span>✓</span> COPIED`;
     setTimeout(() => {
       btn.innerHTML = originalText;
     }, 2000);
-  }).catch(err => {
+  }).catch(() => {
     showToast("COPY FAILED");
   });
 }
@@ -1074,7 +1172,7 @@ function handleSearch(query) {
       if (btn.style.display !== 'none') {
         const secId = btn.getAttribute('data-section');
         if (secId) {
-          navigate(secId, btn.querySelector('span:not(.nav-dot-indicator):not(.nav-tag-badge)').textContent);
+          navigate(secId, btn.querySelector('span:not(.kanji-badge):not(.nav-tag-badge)').textContent);
           break;
         }
       }
@@ -1100,22 +1198,23 @@ document.addEventListener('keydown', (e) => {
 
 // Sidebar Mobile Controls
 function openSidebar() {
-  document.getElementById('appSidebar').classList.add('open');
-  document.getElementById('sidebarOverlay').classList.add('active');
+  document.getElementById('appSidebar')?.classList.add('open');
+  document.getElementById('sidebarOverlay')?.classList.add('active');
 }
 
 function closeSidebar() {
-  document.getElementById('appSidebar').classList.remove('open');
-  document.getElementById('sidebarOverlay').classList.remove('active');
+  document.getElementById('appSidebar')?.classList.remove('open');
+  document.getElementById('sidebarOverlay')?.classList.remove('active');
 }
 
 // Handle URL hash on load
 window.addEventListener('DOMContentLoaded', () => {
+  updateGeneratedCmd();
   const hash = window.location.hash.replace('#', '');
   if (hash) {
     const matchingBtn = document.querySelector(`.nav-item-btn[data-section="${hash}"]`);
     if (matchingBtn) {
-      const label = matchingBtn.querySelector('span:not(.nav-dot-indicator):not(.nav-tag-badge)')?.textContent || hash;
+      const label = matchingBtn.querySelector('span:not(.kanji-badge):not(.nav-tag-badge)')?.textContent || hash;
       navigate(hash, label);
     }
   }
